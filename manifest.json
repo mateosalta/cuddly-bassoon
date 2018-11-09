@@ -1,15 +1,15 @@
 {
-    "name": "@APP_ID@",
+    "name": "youtube-web.mateo-salta",
     "description": "description of youtube-morphc",
-    "architecture": "@CLICK_ARCH@",
-    "title": "@APP_NAME@",
+
+    "title": "youtube-web",
     "hooks": {
         "youtube-morphc": {
             "apparmor": "youtube-morphc.apparmor",
             "desktop":  "youtube-morphc.desktop"
         }
     },
-    "version": "0.1",
+    "version": "1.5",
     "maintainer": "Mateo Salta <mateo_salta@yahoo.com>",
     "framework" : "ubuntu-sdk-16.04"
 }
