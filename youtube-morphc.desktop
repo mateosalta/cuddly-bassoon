@@ -1,7 +1,7 @@
 [Desktop Entry]
 Name=YouTube
 Comment=Morph based alternate Youtube Webapp
-Exec=qmlscene %u app/Main.qml --disable-gpu --scaling
+Exec=qmlscene %u app/Main.qml  --scaling --multisample --gles --fullscreen --disable-gpu
 Terminal=false
 Type=Application
 Icon=icon.png

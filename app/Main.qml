@@ -8,7 +8,7 @@ import Qt.labs.settings 1.0
 import QtSystemInfo 5.5
 
 MainView {
-id:mainview
+id:window
 
 ScreenSaver {
 id: screenSaver
@@ -20,7 +20,7 @@ screenSaverEnabled: !(Qt.application.active)
     applicationName: "youtube-web.mateo-salta"
 
 
-    signal fullScreenRequested(bool toggleOn)
+backgroundColor : "transparent"
 
     
 
@@ -31,23 +31,28 @@ screenSaverEnabled: !(Qt.application.active)
 
 
  
-              settings.fullScreenSupportEnabled: true
+              settings.fullScreenSupportEnabled: ture
        property var currentWebview: webview
-         //  settings.pluginsEnabled: true
-           
+           settings.pluginsEnabled: true
+
            
                     onFullScreenRequested: function(request) {
-       mainview.fullScreenRequested(request.toggleOn);
        nav.visible = !nav.visible
 
        request.accept();
    }
 
 
+
        
 profile:  WebEngineProfile{
-id: oxideContext
+id: webContext
     persistentCookiesPolicy: WebEngineProfile.ForcePersistentCookies
+       property alias dataPath: webContext.persistentStoragePath
+
+            dataPath: dataLocation
+
+
     
         httpUserAgent: "Mozilla/5.0 (Linux; Android 8.0.0; Pixel Build/OPR3.170623.007) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.98 Mobile Safari/537.36"
     }
@@ -56,7 +61,7 @@ id: oxideContext
     centerIn: parent.verticalCenter}
 
               
-       
+
        url: "http://www.youtube.com"
  userScripts: [
 WebEngineScript {
@@ -144,11 +149,51 @@ sourceUrl: "ubuntutheme.js"
    
    
         }
+        
+        
+       
+        
          Connections {
         target: Qt.inputMethod
         onVisibleChanged: nav.visible = !nav.visible
     }
-   
+    
+    Connections {
+        target: webview
+
+                        onIsFullScreenChanged: {
+                        window.setFullscreen()
+                        if (currentWebview.isFullScreen) {
+
+                    nav.state = "hidden"
+        }
+        else {
+
+        nav.state = "shown"
+        }
+   }
     
     }
-
+     Connections {
+        target: window.webview
+    
+               onIsFullScreenChanged: window.setFullscreen(window.webview.isFullScreen)
+               }
+                      function setFullscreen(fullscreen) {
+         if (!window.forceFullscreen) {
+             if (fullscreen) {
+                 if (window.visibility != Window.FullScreen) {
+                     internal.currentWindowState = window.visibility
+                    window.visibility = 5
+                }
+            } else {
+                window.visibility = internal.currentWindowState
+                //window.currentWebview.fullscreen = false
+                //window.currentWebview.fullscreen = false
+            }
+        }
+               
+         
+        }
+ 
+}
