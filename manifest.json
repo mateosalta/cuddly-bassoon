@@ -4,12 +4,12 @@
 
     "title": "youtube-web",
     "hooks": {
-        "youtube-morphc": {
+        "youtube-web": {
             "apparmor": "youtube-morphc.apparmor",
             "desktop":  "youtube-morphc.desktop"
         }
     },
-    "version": "1.5",
+    "version": "2.2.3",
     "maintainer": "Mateo Salta <mateo_salta@yahoo.com>",
     "framework" : "ubuntu-sdk-16.04"
 }
