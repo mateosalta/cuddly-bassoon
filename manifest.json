@@ -3,6 +3,7 @@
     "description": "description of youtube-morphc",
 
     "title": "youtube-web",
+    "architecture": "@CLICK_ARCH@",
     "hooks": {
         "youtube-web": {
             "apparmor": "youtube-morphc.apparmor",
