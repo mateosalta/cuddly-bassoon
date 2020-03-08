@@ -25,10 +25,11 @@ backgroundColor : "transparent"
     
 
         
-   WebEngineView {
+   WebView {
    id: webview
     anchors{ fill: parent}
 
+    enableSelectOverride: true
 
  
               settings.fullScreenSupportEnabled: ture
