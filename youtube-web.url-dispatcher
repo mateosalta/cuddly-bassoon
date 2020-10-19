@@ -1,0 +1,26 @@
+[
+        {
+                "protocol": "http",
+                "domain-suffix": "youtube.com"
+        },
+        {
+                "protocol": "https",
+                "domain-suffix": "youtube.com"
+        },
+        {
+                "protocol": "http",
+                "domain-suffix": "m.youtube.com"
+        },
+        {
+                "protocol": "https",
+                "domain-suffix": "m.youtube.com"
+        },
+         {
+                "protocol": "http",
+                "domain-suffix": "youtu.be"
+        },
+        {
+                "protocol": "https",
+                "domain-suffix": "youtu.be"
+        }
+]

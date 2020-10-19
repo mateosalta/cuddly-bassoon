@@ -1,7 +1,7 @@
 [Desktop Entry]
 Name=YouTube
 Comment=Morph based alternate Youtube Webapp
-Exec=qmlscene %u app/Main.qml  --scaling --multisample --gles --fullscreen --disable-gpu
+Exec=qmlscene %U app/Main.qml  --scaling --multisample --gles --fullscreen --disable-gpu
 Terminal=false
 Type=Application
 Icon=icon.png
@@ -10,6 +10,6 @@ X-Ubuntu-Touch=true
 X-Ubuntu-Splash-Color=#ffffff
 X-Ubuntu-Splash-Image=icon-splash.png
 
-Name[en_US]=YouTube
 
 
+Name[fr_FR]=youtube-web.desktop.in
