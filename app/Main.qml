@@ -50,12 +50,6 @@ MainView {
                 injectionPoint: WebEngineScript.DocumentReady
                 worldId: WebEngineScript.ApplicationWorld
                 sourceUrl: "ubuntutheme.js"
-            },
-            WebEngineScript {
-                //WebEngineScript.DocumentReady seems not working
-                injectionPoint: WebEngineScript.Deferred
-                worldId: WebEngineScript.ApplicationWorld
-                sourceUrl: "no-footer.js"
             }
         ]
     }

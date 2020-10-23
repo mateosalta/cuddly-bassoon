@@ -1,6 +1,6 @@
 
 (function() {
-	var css = "::-webkit-scrollbar {width: 4px;}::-webkit-scrollbar-track {border-radius: 0px;}::-webkit-scrollbar-thumb {background: rgba(0, 0, 0, 0.4);border-radius: 10px;}::-webkit-scrollbar-thumb:hover {background: rgba(0, 0, 0, 0.6);}";
+	var css = "ytm-pivot-bar-renderer {\ndisplay: none !important;}\n::-webkit-scrollbar {width: 4px;}::-webkit-scrollbar-track {border-radius: 0px;}::-webkit-scrollbar-thumb {background: rgba(0, 0, 0, 0.4);border-radius: 10px;}::-webkit-scrollbar-thumb:hover {background: rgba(0, 0, 0, 0.6);}";
 	if (typeof GM_addStyle != "undefined") {
 		GM_addStyle(css);
 	} else if (typeof PRO_addStyle != "undefined") {
