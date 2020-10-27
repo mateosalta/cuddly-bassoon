@@ -138,23 +138,23 @@ MainView {
     }
     
     Rectangle {
-        id: loader
+        id: splashScreen
         color: theme.palette.normal.background
         anchors.fill: parent
 
-
-        Image {
-            id: splash_img
-            source: "../assets/icon-splash.svg"
+        ActivityIndicator{
+            id:loadingflg
             anchors.centerIn: parent
+
+            running: splashScreen.visible
         }
 
         states: [
             State { when: !window.loaded;
-                PropertyChanges { target: loader; opacity: 1.0 }
+                PropertyChanges { target: splashScreen; opacity: 1.0 }
             },
             State { when: window.loaded;
-                PropertyChanges { target: loader; opacity: 0.0 }
+                PropertyChanges { target: splashScreen; opacity: 0.0 }
             }
         ]
 

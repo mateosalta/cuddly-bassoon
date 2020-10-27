@@ -7,9 +7,8 @@ Type=Application
 Icon=assets/icon.png
 X-Ubuntu-Touch=true
 
-X-Ubuntu-Splash-Color=#333333
+X-Ubuntu-Splash-Color=#111111
 #X-Ubuntu-SymbolicIcon=assets/icon.png
-X-Ubuntu-Splash-Image=
-
+X-Ubuntu-Splash-Image=assets/icon-splash2.png
 
 Name[fr_FR]=youtube-web
