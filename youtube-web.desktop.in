@@ -9,6 +9,6 @@ X-Ubuntu-Touch=true
 
 X-Ubuntu-Splash-Color=#111111
 #X-Ubuntu-SymbolicIcon=assets/icon.png
-X-Ubuntu-Splash-Image=assets/icon-splash2.png
+X-Ubuntu-Splash-Image=assets/icon-splash.png
 
 Name[fr_FR]=youtube-web
