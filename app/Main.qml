@@ -18,7 +18,9 @@ MainView {
     theme.name: "Ubuntu.Components.Themes.SuruDark"
 
     applicationName: "youtube-web.mateo-salta"
-    backgroundColor : "transparent"
+    backgroundColor : theme.palette.normal.background
+
+    property bool loaded: false
 
     WebView {
         id: webview
@@ -29,6 +31,8 @@ MainView {
         settings.fullScreenSupportEnabled: true
         property var currentWebview: webview
         settings.pluginsEnabled: true
+
+        backgroundColor: theme.palette.normal.background
 
         onFullScreenRequested: function(request) {
             nav.visible = !nav.visible
@@ -56,6 +60,12 @@ MainView {
                 sourceUrl: "ubuntutheme.js"
             }
         ]
+
+        onLoadingChanged: {
+            if (loadRequest.status === WebEngineLoadRequest.LoadSucceededStatus) {
+                window.loaded = true
+            }
+        }
     }
     RadialBottomEdge {
         id: nav
@@ -126,6 +136,33 @@ MainView {
             }
         ]
     }
+    
+    Rectangle {
+        id: loader
+        color: theme.palette.normal.background
+        anchors.fill: parent
+
+
+        Image {
+            id: splash_img
+            source: "../assets/icon-splash.svg"
+            anchors.centerIn: parent
+        }
+
+        states: [
+            State { when: !window.loaded;
+                PropertyChanges { target: loader; opacity: 1.0 }
+            },
+            State { when: window.loaded;
+                PropertyChanges { target: loader; opacity: 0.0 }
+            }
+        ]
+
+        transitions: Transition {
+            NumberAnimation { property: "opacity"; duration: 400}
+        }
+
+    }
 
     Connections {
         target: Qt.inputMethod
@@ -136,6 +173,7 @@ MainView {
         target: webview
 
         onIsFullScreenChanged: {
+            console.log('onIsFullScreenChanged:')
             window.setFullscreen()
             if (currentWebview.isFullScreen) {
 
@@ -175,15 +213,16 @@ MainView {
     }
 
 
-
     function setFullscreen(fullscreen) {
         if (!window.forceFullscreen) {
             if (fullscreen) {
                 if (window.visibility != Window.FullScreen) {
+                    console.log('hello fullscreen')
                     internal.currentWindowState = window.visibility
                     window.visibility = 5
                 }
             } else {
+                console.log('hello fullscreen', fullscreen)
                 window.visibility = internal.currentWindowState
                 //window.currentWebview.fullscreen = false
                 //window.currentWebview.fullscreen = false

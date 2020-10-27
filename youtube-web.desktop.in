@@ -4,12 +4,12 @@ Comment=Morph based alternate Youtube Webapp
 Exec=qmlscene %U app/Main.qml  --scaling --multisample --gles --fullscreen --disable-gpu
 Terminal=false
 Type=Application
-Icon=icon.png
+Icon=assets/icon.png
 X-Ubuntu-Touch=true
 
-X-Ubuntu-Splash-Color=#ffffff
-X-Ubuntu-Splash-Image=icon-splash.png
+X-Ubuntu-Splash-Color=#333333
+#X-Ubuntu-SymbolicIcon=assets/icon.png
+X-Ubuntu-Splash-Image=
 
 
-
-Name[fr_FR]=youtube-web.desktop.in
+Name[fr_FR]=youtube-web
