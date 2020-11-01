@@ -135,7 +135,7 @@ Item {
                         bottomMargin: modelData.top ? units.gu(3) : undefined
                         horizontalCenter: icon.horizontalCenter
                     }
-                    color: Theme.palette.normal.foregroundText
+                    color: "#ffffff"
                     font.bold: true
                     fontSize: "medium"
 

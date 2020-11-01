@@ -6,21 +6,25 @@ import QtWebEngine 1.7
 import "UCSComponents"
 import Qt.labs.settings 1.0
 import QtSystemInfo 5.5
+import QtQuick.Controls 2.2
 
-MainView {
+ApplicationWindow {
     id:window
 
-//    ScreenSaver {
-//        id: screenSaver
-//        screenSaverEnabled: !(Qt.application.active)
-//    }
+        color: theme.palette.normal.background
+    ScreenSaver {
+       id: screenSaver
+       screenSaverEnabled: !Qt.application.active || !webview.recentlyAudible
+    }
     objectName: "mainView"
-    theme.name: "Ubuntu.Components.Themes.SuruDark"
+   // theme.name: "Ubuntu.Components.Themes.SuruDark"
 
-    applicationName: "youtube-web.mateo-salta"
-    backgroundColor : theme.palette.normal.background
+   // applicationName: "youtube-web.mateo-salta"
+   // backgroundColor : theme.palette.normal.background
 
     property bool loaded: false
+    
+ 
 
     WebView {
         id: webview
@@ -31,8 +35,11 @@ MainView {
         settings.fullScreenSupportEnabled: true
         property var currentWebview: webview
         settings.pluginsEnabled: true
+        settings.showScrollBars: false
+        settings.javascriptCanAccessClipboard: true
+        
 
-        backgroundColor: theme.palette.normal.background
+
 
         onFullScreenRequested: function(request) {
             nav.visible = !nav.visible
@@ -48,18 +55,20 @@ MainView {
             dataPath: dataLocation
             offTheRecord: false
 
-            httpUserAgent: "Mozilla/5.0 (Linux; Android 8.0.0; Pixel Build/OPR3.170623.007) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.98 Mobile Safari/537.36"
+            httpUserAgent: "Mozilla/5.0 (Linux; Android 10; Pixel 4 XL) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.79 Mobile Safari/537.36"
+            
+             userScripts: [
+            WebEngineScript {
+                id: cssinjection
+                injectionPoint: WebEngineScript.DocumentReady
+                sourceUrl: Qt.resolvedUrl('ubuntutheme.js')
+                worldId: WebEngineScript.UserWorld
+            }
+        ]
         }
 
         url: "http://www.youtube.com"
-        userScripts: [
-            WebEngineScript {
-                injectionPoint: WebEngineScript.DocumentCreation
-                worldId: WebEngineScript.MainWorld
-                name: "QWebChannel"
-                sourceUrl: "ubuntutheme.js"
-            }
-        ]
+        
 
         onLoadingChanged: {
             if (loadRequest.status === WebEngineLoadRequest.LoadSucceededStatus) {
