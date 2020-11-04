@@ -120,7 +120,7 @@ ApplicationWindow {
 
         MenuItem {
             id: copyItem
-            text: i18n.tr("Copy URL")
+            text: i18n.tr("Copy link")
             enabled: webview.contextMenuRequest
             onTriggered: {
                 console.log(webview.contextMenuRequest.linkUrl.toString())
