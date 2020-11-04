@@ -184,13 +184,11 @@ ApplicationWindow {
 
         onIsFullScreenChanged: {
             console.log('onIsFullScreenChanged:')
-            window.setFullscreen()
-            if (currentWebview.isFullScreen) {
-
+            window.setFullscreen(webview.isFullScreen)
+            if (webview.isFullScreen) {
                 nav.state = "hidden"
             }
             else {
-
                 nav.state = "shown"
             }
         }
@@ -217,26 +215,18 @@ ApplicationWindow {
                     console.log(' open video to:', Qt.application.arguments[i])
                     webview.url = Qt.application.arguments[i];
                 }
-                //}
             }
         }
     }
 
 
     function setFullscreen(fullscreen) {
-        if (!window.forceFullscreen) {
-            if (fullscreen) {
-                if (window.visibility != Window.FullScreen) {
-                    console.log('hello fullscreen')
-                    internal.currentWindowState = window.visibility
-                    window.visibility = 5
-                }
-            } else {
-                console.log('hello fullscreen', fullscreen)
-                window.visibility = internal.currentWindowState
-                //window.currentWebview.fullscreen = false
-                //window.currentWebview.fullscreen = false
+        if (fullscreen) {
+            if (window.visibility != Window.FullScreen) {
+                window.visibility = Window.FullScreen
             }
+        } else {
+            window.visibility = Window.Windowed
         }
     }
 
