@@ -1,6 +1,6 @@
 
 (function() {
-var css = "* {\nfont-family: \"Ubuntu\" !important;\nfont-size: 10pt !important;} \n\n\n 	ytm-pivot-bar-renderer {position: inherit !important;} \n\n\n	@media (prefers-color-scheme: dark) {} \n\n\n	\n\n\n\n\n\n"
+var css = "* {\nfont-family: \"Ubuntu\" !important;\nfont-size: 10pt !important;} \n\n\n 	ytm-pivot-bar-renderer {\ndisplay: none !important;}  \n\n\n	@media (prefers-color-scheme: dark) {} \n\n\n	\n\n\n\n\n\n"
 
 
 ;
