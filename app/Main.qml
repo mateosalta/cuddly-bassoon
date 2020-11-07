@@ -34,6 +34,7 @@ ApplicationWindow {
 
         settings.fullScreenSupportEnabled: true
         property var currentWebview: webview
+        property ContextMenuRequest contextMenuRequest: null
         settings.pluginsEnabled: true
         settings.showScrollBars: false
         settings.javascriptCanAccessClipboard: true
@@ -73,6 +74,66 @@ ApplicationWindow {
         onLoadingChanged: {
             if (loadRequest.status === WebEngineLoadRequest.LoadSucceededStatus) {
                 window.loaded = true
+            }
+        }
+
+        //handle click on links
+        onNewViewRequested: function(request) {
+            console.log(request.destination, request.requestedUrl)
+
+            var url = request.requestedUrl.toString()
+            //handle redirection links
+            if (url.startsWith('https://www.youtube.com')) {
+                //get query params
+                var reg = new RegExp('[?&]q=([^&#]*)', 'i');
+                var param = reg.exec(url);
+                if (param) {
+                    console.log("url to open:", decodeURIComponent(param[1]))
+                    Qt.openUrlExternally(decodeURIComponent(param[1]))
+                } else {
+                    Qt.openUrlExternally(url)
+                }
+            } else {
+                Qt.openUrlExternally(url)
+            }
+
+
+        }
+
+
+        onContextMenuRequested: function(request) {
+            if (!Qt.inputMethod.visible) { //don't open it on when address bar is open
+                request.accepted = true;
+                contextMenuRequest = request
+                contextMenu.x = request.x;
+                contextMenu.y = request.y;
+                contextMenu.open();
+            }
+
+
+        }
+
+    }
+
+    Menu {
+        id: contextMenu
+
+        MenuItem {
+            id: copyItem
+            text: i18n.tr("Copy link")
+            enabled: webview.contextMenuRequest
+            onTriggered: {
+                console.log(webview.contextMenuRequest.linkUrl.toString())
+                var url = ''
+                if (webview.contextMenuRequest.linkUrl.toString().length > 0) {
+                    url = webview.contextMenuRequest.linkUrl.toString()
+                } else {
+                    //when clicking on the video
+                    url = webview.url
+                }
+
+                Clipboard.push(url)
+                webview.contextMenuRequest = null;
             }
         }
     }
