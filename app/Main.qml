@@ -36,7 +36,7 @@ ApplicationWindow {
         property var currentWebview: webview
         property ContextMenuRequest contextMenuRequest: null
         settings.pluginsEnabled: true
-        settings.showScrollBars: false
+      //settings.showScrollBars: false
         settings.javascriptCanAccessClipboard: true
         
 
