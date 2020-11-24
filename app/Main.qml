@@ -68,7 +68,7 @@ ApplicationWindow {
         ]
         }
 
-        url: "http://www.youtube.com"
+        url: "https://www.youtube.com"
         
 
         onLoadingChanged: {
