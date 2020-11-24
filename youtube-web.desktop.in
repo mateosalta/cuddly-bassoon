@@ -1,7 +1,7 @@
 [Desktop Entry]
 Name=YouTube
 Comment=Morph based alternate Youtube Webapp
-Exec=qmlscene %U app/Main.qml  --scaling --software
+Exec=qmlscene %U app/Main.qml  --scaling --software --enable-embedded-switches
 Terminal=false
 Type=Application
 Icon=assets/icon.png
