@@ -10,7 +10,7 @@ import QtQuick.Controls 2.2
 
 ApplicationWindow {
     id:window
-
+// TODO: using qtquickcontrols application window made the theme not apply, loading splash changes color with theme, do we want it dark all the time?
         color: theme.palette.normal.background
     ScreenSaver {
        id: screenSaver
