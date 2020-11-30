@@ -1,81 +1,81 @@
 import QtQuick 2.9
-import Ubuntu.Components 1.3
-import QtQuick.Window 2.2
-import Morph.Web 0.1
-import QtWebEngine 1.7
-import "UCSComponents"
-import Qt.labs.settings 1.0
-import QtSystemInfo 5.5
+import QtQuick.Layouts 1.3
 import QtQuick.Controls 2.2
+import Ubuntu.Components 1.3
+import "UCSComponents"
+import Morph.Web 0.1
+import QtWebEngine 1.10
+import QtSystemInfo 5.5
+
 
 ApplicationWindow {
-    id:window
-// TODO: using qtquickcontrols application window made the theme not apply, loading splash changes color with theme, do we want it dark all the time?
-        color: theme.palette.normal.background
+
+    id: window
+    visible: true
+
+    color: theme.palette.normal.background
+
     ScreenSaver {
-       id: screenSaver
-       screenSaverEnabled: !Qt.application.active || !webview.recentlyAudible
+        id: screenSaver
+        screenSaverEnabled: !Qt.application.active || !webview.recentlyAudible
     }
+
+    width: units.gu(45)
+    height: units.gu(75)
+
+    WebContext {
+            id: webcontext
+            userAgent: "Mozilla/5.0 (Linux; Android 4.4; Pixel 4 XL) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.79 Mobile Safari/537.36"
+            offTheRecord: false
+        }
+
     objectName: "mainView"
-   // theme.name: "Ubuntu.Components.Themes.SuruDark"
-
-   // applicationName: "youtube-web.mateo-salta"
-   // backgroundColor : theme.palette.normal.background
-
     property bool loaded: false
-    
- 
 
     WebView {
+
         id: webview
         anchors.fill: parent
 
+        settings.fullScreenSupportEnabled: true
+        settings.dnsPrefetchEnabled: true
+
         enableSelectOverride: true
 
-        settings.fullScreenSupportEnabled: true
-        property var currentWebview: webview
-        property ContextMenuRequest contextMenuRequest: null
-        settings.pluginsEnabled: true
-      //settings.showScrollBars: false
-        settings.javascriptCanAccessClipboard: true
-        
+       property var currentWebview: webview
+       property ContextMenuRequest contextMenuRequest: null
+       settings.pluginsEnabled: true
+     //settings.showScrollBars: false
+       settings.javascriptCanAccessClipboard: true
 
+       onFullScreenRequested: function(request) {
+         nav.visible = !nav.visible
+         if (request.toggleOn) {
+           window.showFullScreen();
+       }
+       else {
+           window.showNormal();
+       }
 
-
-        onFullScreenRequested: function(request) {
-            nav.visible = !nav.visible
-
-            request.accept();
-        }
-
-        profile:  WebEngineProfile{
-            id: webContext
-            persistentCookiesPolicy: WebEngineProfile.ForcePersistentCookies
-            property alias dataPath: webContext.persistentStoragePath
-
-            dataPath: dataLocation
-            offTheRecord: false
-
-            httpUserAgent: "Mozilla/5.0 (Linux; Android 10; Pixel 4 XL) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.79 Mobile Safari/537.36"
-            
-             userScripts: [
-            WebEngineScript {
-                id: cssinjection
-                injectionPoint: WebEngineScript.DocumentReady
-                sourceUrl: Qt.resolvedUrl('ubuntutheme.js')
-                worldId: WebEngineScript.UserWorld
-            }
-        ]
-        }
-
-        url: "https://www.youtube.com"
-        
+         request.accept();
+     }
+     context: webcontext
+     userScripts: [
+           WebEngineScript {
+               id: cssinjection
+               injectionPoint: WebEngineScript.DocumentReady
+               sourceUrl: Qt.resolvedUrl('ubuntutheme.js')
+               worldId: WebEngineScript.UserWorld
+           }
+       ]
+        url: 'https://m.youtube.com/'
 
         onLoadingChanged: {
             if (loadRequest.status === WebEngineLoadRequest.LoadSucceededStatus) {
                 window.loaded = true
             }
         }
+
 
         //handle click on links
         onNewViewRequested: function(request) {
@@ -92,14 +92,12 @@ ApplicationWindow {
                     Qt.openUrlExternally(decodeURIComponent(param[1]))
                 } else {
                     Qt.openUrlExternally(url)
+                                    request.action = WebEngineNavigationRequest.IgnoreRequest;
                 }
             } else {
                 Qt.openUrlExternally(url)
             }
-
-
         }
-
 
         onContextMenuRequested: function(request) {
             if (!Qt.inputMethod.visible) { //don't open it on when address bar is open
@@ -109,9 +107,8 @@ ApplicationWindow {
                 contextMenu.y = request.y;
                 contextMenu.open();
             }
-
-
         }
+
 
     }
 
@@ -207,39 +204,6 @@ ApplicationWindow {
             }
         ]
     }
-    
-    Rectangle {
-        id: splashScreen
-        color: theme.palette.normal.background
-        anchors.fill: parent
-
-        ActivityIndicator{
-            id:loadingflg
-            anchors.centerIn: parent
-
-            running: splashScreen.visible
-        }
-
-        states: [
-            State { when: !window.loaded;
-                PropertyChanges { target: splashScreen; opacity: 1.0 }
-            },
-            State { when: window.loaded;
-                PropertyChanges { target: splashScreen; opacity: 0.0 }
-            }
-        ]
-
-        transitions: Transition {
-            NumberAnimation { property: "opacity"; duration: 400}
-        }
-
-    }
-
-    Connections {
-        target: Qt.inputMethod
-        onVisibleChanged: nav.visible = !nav.visible
-    }
-    
     Connections {
         target: webview
 
@@ -256,39 +220,37 @@ ApplicationWindow {
     }
 
 
-    Connections {
-        target: UriHandler
+        Connections {
+            target: UriHandler
 
-        onOpened: {
+            onOpened: {
 
-            if (uris.length > 0) {
-                console.log('Incoming call from UriHandler ' + uris[0]);
-                webview.url = uris[0];
-            }
-        }
-    }
-
-    Component.onCompleted: {
-        //Check if opened the app because we have an incoming call
-        if (Qt.application.arguments && Qt.application.arguments.length > 0) {
-            for (var i = 0; i < Qt.application.arguments.length; i++) {
-                if (Qt.application.arguments[i].match(/^http/)) {
-                    console.log(' open video to:', Qt.application.arguments[i])
-                    webview.url = Qt.application.arguments[i];
+                if (uris.length > 0) {
+                    console.log('Incoming call from UriHandler ' + uris[0]);
+                    webview.url = uris[0];
                 }
             }
         }
-    }
 
-
-    function setFullscreen(fullscreen) {
-        if (fullscreen) {
-            if (window.visibility != Window.FullScreen) {
-                window.visibility = Window.FullScreen
+        Component.onCompleted: {
+            //Check if opened the app because we have an incoming call
+            if (Qt.application.arguments && Qt.application.arguments.length > 0) {
+                for (var i = 0; i < Qt.application.arguments.length; i++) {
+                    if (Qt.application.arguments[i].match(/^http/)) {
+                        console.log(' open video to:', Qt.application.arguments[i])
+                        webview.url = Qt.application.arguments[i];
+                    }
+                }
             }
-        } else {
-            window.visibility = Window.Windowed
         }
-    }
 
+        function setFullscreen(fullscreen) {
+            if (fullscreen) {
+                if (window.visibility != Window.FullScreen) {
+                    window.visibility = Window.FullScreen
+                }
+            } else {
+                window.visibility = Window.Windowed
+            }
+        }
 }

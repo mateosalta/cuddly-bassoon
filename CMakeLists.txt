@@ -37,6 +37,10 @@ else()
     )
 endif()
 
+add_executable(${PROJECT_NAME} main.cpp)
+qt5_use_modules(${PROJECT_NAME} Gui Qml Quick QuickControls2)
+install(TARGETS ${PROJECT_NAME} RUNTIME DESTINATION ${CMAKE_INSTALL_PREFIX})
+
 configure_file(manifest.json.in ${CMAKE_CURRENT_BINARY_DIR}/manifest.json)
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/manifest.json DESTINATION ${CMAKE_INSTALL_PREFIX})
 install(FILES ${PROJECT_NAME}.apparmor DESTINATION ${DATA_DIR})

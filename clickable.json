@@ -1,5 +1,4 @@
 {
   "clickable_minimum_required": "6.12.2",
-  "builder": "pure-qml-cmake",
-  "kill": "qmlscene"
+  "kill": "youtube-web"
 }
