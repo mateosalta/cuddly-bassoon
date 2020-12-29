@@ -14,7 +14,7 @@ int main(int argc, char** argv) {
     QGuiApplication::setApplicationName("youtube-web.mateo-salta");
     QGuiApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
    
-        qputenv("QTWEBENGINE_CHROMIUM_FLAGS", "--blink-settings=darkMode=3,darkModeImagePolicy=2,darkModeImageStyle=2 --enable-smooth-scrolling --enable-low-res-tiling --enable-low-end-device-mode --enable-natural-scroll-default");
+        qputenv("QTWEBENGINE_CHROMIUM_FLAGS", "--enable-smooth-scrolling --enable-low-res-tiling --enable-low-end-device-mode --enable-natural-scroll-default");
     
     qputenv("QT_AUTO_SCREEN_SCALE_FACTOR", "true");
          qputenv("QT_WEBENGINE_DISABLE_GPU","1");
