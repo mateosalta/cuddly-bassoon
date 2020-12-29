@@ -9,6 +9,7 @@ find_package(Qt5Quick)
 
 # Automatically create moc files
 set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTORCC ON)
 
 # Components PATH
 execute_process(
@@ -37,7 +38,7 @@ else()
     )
 endif()
 
-add_executable(${PROJECT_NAME} main.cpp)
+add_executable(${PROJECT_NAME} main.cpp main.qrc)
 qt5_use_modules(${PROJECT_NAME} Gui Qml Quick QuickControls2)
 install(TARGETS ${PROJECT_NAME} RUNTIME DESTINATION ${CMAKE_INSTALL_PREFIX})
 
