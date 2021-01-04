@@ -273,11 +273,26 @@ ApplicationWindow {
 
         function setFullscreen(fullscreen) {
             if (fullscreen) {
-                if (window.visibility != Window.FullScreen) {
-                    window.visibility = Window.FullScreen
+                if (window.visibility != ApplicationWindow.FullScreen) {
+                    window.visibility = ApplicationWindow.FullScreen
                 }
             } else {
-                window.visibility = Window.Windowed
+                window.visibility = ApplicationWindow.Windowed
             }
         }
+        
+        
+              function toggleApplicationLevelFullscreen() {
+                setFullscreen(visibility !== ApplicationWindow.FullScreen)
+            }
+
+            Shortcut {
+                sequence: StandardKey.FullScreen
+                onActivated: window.toggleApplicationLevelFullscreen()
+            }
+
+            Shortcut {
+                sequence: "F11"
+                onActivated: window.toggleApplicationLevelFullscreen()
+            }
 }
