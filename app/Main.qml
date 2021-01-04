@@ -13,7 +13,7 @@ ApplicationWindow {
     id: window
     visible: true
 
-    color: theme.palette.normal.background
+    color: "#111111"
 
     ScreenSaver {
         id: screenSaver
@@ -207,7 +207,7 @@ ApplicationWindow {
     
         Rectangle {
         id: splashScreen
-        color: theme.palette.normal.background
+        color: "#111111"
         anchors.fill: parent
 
         ActivityIndicator{
