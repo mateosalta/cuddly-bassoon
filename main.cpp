@@ -20,7 +20,7 @@ int main(int argc, char** argv) {
     if (qgetenv("QT_QPA_PLATFORM") == "wayland") {
         qputenv("QT_WAYLAND_SHELL_INTEGRATION", "wl-shell");
         qputenv("QT_SCALE_FACTOR", "1.7");
-        qputenv("QT_WEBENGINE_DISABLE_GPU","1")
+        qputenv("QT_WEBENGINE_DISABLE_GPU","1");
     }
     
     QGuiApplication app(argc, argv);
