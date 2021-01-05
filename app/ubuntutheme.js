@@ -1,6 +1,6 @@
 
 (function() {
-var css = "* {\nfont-family: \"Ubuntu\" !important;\nfont-size: 10pt !important;} \n\n\n  \n\n\n ytm-pivot-bar-renderer {\ndisplay: none !important;}  \n\n\n \n\n\n	\n\n\n\n\n\n"
+var css = "* {\nfont-family: \"Ubuntu\" !important;\nfont-size: 10pt !important;} \n\n\n  \n\n\n ytm-pivot-bar-renderer {\ndisplay: none !important;}  \n\n\n \n\n\n	video.video-stream.html5-main-video { width: 100% !important; left: 0 !important; height: auto !important; } \n\n\n\n\n\n"
 
 
 ;
