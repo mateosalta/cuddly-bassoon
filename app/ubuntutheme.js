@@ -1,27 +1,31 @@
 
-(function() {
-var css = "* {\nfont-family: \"Ubuntu\" !important;\nfont-size: 10pt !important;} \n\n\n 	ytm-pivot-bar-renderer {\ndisplay: none !important;}  \n\n\n	@media (prefers-color-scheme: dark) {} \n\n\n	\n\n\n\n\n\n"
-
-
-;
-
-
-if (typeof GM_addStyle != "undefined") {
-	GM_addStyle(css);
-} else if (typeof PRO_addStyle != "undefined") {
-	PRO_addStyle(css);
-} else if (typeof addStyle != "undefined") {
-	addStyle(css);
-} else {
-	var node = document.createElement("style");
-	node.type = "text/css";
-	node.appendChild(document.createTextNode(css));
-	var heads = document.getElementsByTagName("head");
-	if (heads.length > 0) {
-		heads[0].appendChild(node); 
-	} else {
-		// no head yet, stick it whereever
-		document.documentElement.appendChild(node);
-	}
-}
-})();
+    // Override video element canPlayType() function
+    var videoElem = document.createElement('video');
+    var origCanPlayType = videoElem.canPlayType.bind(videoElem);
+    videoElem.__proto__.canPlayType = function (type) {
+        if (type === undefined) return '';
+        // If queried about webM/vp8/vp8 support, say we don't support them
+        if (type.indexOf('webm') != -1
+            || type.indexOf('vp8') != -1
+            || type.indexOf('vp9') != -1) {
+            return '';
+        }
+        // Otherwise, ask the browser
+        return origCanPlayType(type);
+    }
+    
+    // Override media source extension isTypeSupported() function
+    var mse = window.MediaSource;
+    var origIsTypeSupported = mse.isTypeSupported.bind(mse);
+    mse.isTypeSupported = function (type) {
+        if (type === undefined) return '';
+        // If queried about webM/vp8/vp8 support, say we don't support them
+        if (type.indexOf('webm') != -1
+            || type.indexOf('vp8') != -1
+            || type.indexOf('vp9') != -1) {
+            return '';
+        }
+        // Otherwise, ask the browser
+        return origIsTypeSupported(type);
+    }
+};
