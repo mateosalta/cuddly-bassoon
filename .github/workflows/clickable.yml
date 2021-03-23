@@ -49,8 +49,8 @@ jobs:
           path: build/all/app/*.click
           if-no-files-found: ignore
       - name: Publish to Open Store
-          if: ${{ github.ref == 'refs/heads/master' && matrix.build == 'Release' }}
-          env:
-            ARCH: ${{ matrix.arch }}
-            OPENSTORE_KEY: ${{ secrets.OPENSTORE_KEY }}
-          run: clickable publish "* $(git log -1 --pretty=%B | head -1)" --apikey ${OPENSTORE_KEY} --config clickable.json --arch ${ARCH}
+        if: ${{ github.ref == 'refs/heads/master' && matrix.build == 'Release' }}
+        env:
+          ARCH: ${{ matrix.arch }}
+          OPENSTORE_KEY: ${{ secrets.OPENSTORE_KEY }}
+        run: clickable publish "* $(git log -1 --pretty=%B | head -1)" --apikey ${OPENSTORE_KEY} --config clickable.json --arch ${ARCH}
