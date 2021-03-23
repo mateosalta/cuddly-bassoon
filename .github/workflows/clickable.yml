@@ -6,19 +6,20 @@ name: Build
 on:
   # Triggers the workflow on push or pull request events but only for the master branch
   push:
-    branches: [ master ]
+    branches: [ qgui ]
   pull_request:
-    branches: [ master ]
+    branches: [ qgui ]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  ubports:
+  ubuntu-touch:
     strategy:
       fail-fast: false
       matrix:
+         build: [Release, Debug]
          arch: [all]
 
     runs-on: ubuntu-20.04
@@ -41,15 +42,16 @@ jobs:
           sudo systemctl start docker.service
       - name: Build
         env:
+          BUILD_TYPE: ${{ (matrix.build == 'Debug') && '--debug' || '' }}
           ARCH: ${{ matrix.arch }}
-        run: clickable build --arch ${ARCH} --config clickable.json
+        run: clickable build --verbose ${BUILD_TYPE} --arch ${ARCH} --config clickable.json
       - uses: actions/upload-artifact@v2
         with:
           name: "ubports-${{ matrix.arch }}--click"
           path: build/all/app/*.click
           if-no-files-found: ignore
       - name: Publish to Open Store
-        if: ${{ github.ref == 'refs/heads/master' && matrix.build == 'Release' }}
+        if: ${{ github.ref == 'refs/heads/qgui' && matrix.build == 'Release' }}
         env:
           ARCH: ${{ matrix.arch }}
           OPENSTORE_KEY: ${{ secrets.OPENSTORE_KEY }}
