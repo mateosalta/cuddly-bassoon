@@ -1,6 +1,7 @@
 # YouTube
 [![License](https://img.shields.io/badge/license-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0.html)
 [![GitHub issues](https://img.shields.io/github/issues/mateosalta/cuddly-bassoon.svg)](https://github.com/mateosalta/cuddly-bassoon/issues)
+![Clickable build](https://github.com/mateosalta/master/actions/workflows/clickable.yml/badge.svg)
 
 Morph based alternate YouTube WebApp
 
