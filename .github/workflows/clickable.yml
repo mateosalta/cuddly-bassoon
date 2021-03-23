@@ -42,7 +42,7 @@ jobs:
           sudo systemctl start docker.service
       - name: Build
         env:
-          BUILD_TYPE: ${{ (matrix.build_type == 'Debug') && '--debug' || '' }}
+          BUILD_TYPE: ${{ (matrix.build == 'Debug') && '--debug' || '' }}
           ARCH: ${{ matrix.arch }}
         run: clickable build --verbose ${BUILD_TYPE} --arch ${ARCH} --config clickable.json
       - uses: actions/upload-artifact@v2
