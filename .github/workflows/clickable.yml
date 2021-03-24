@@ -20,9 +20,9 @@ name: Build
 
 on:
   push:
-    branches: [ master, qgui ]
+    branches: [ master ]
   pull_request:
-    branches: [ master, qgui ]
+    branches: [ master ]
   workflow_dispatch:
 
 jobs:
