@@ -46,6 +46,7 @@ jobs:
           ARCH: ${{ matrix.arch }}
         run: clickable build --verbose ${BUILD_TYPE} --arch ${ARCH} --config clickable.json
       - uses: actions/upload-artifact@v2
+        if: always()
         with:
           name: "ubports-${{ matrix.arch }}--click"
           path: build/all/app/*.click
