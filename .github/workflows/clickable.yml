@@ -1,33 +1,41 @@
-# This is a basic workflow to help you get started with Actions
+#  youtube-web - Youtube webapp for Ubuntu Touch
+#  Copyright (C) 2021 A. Semphris <semphris@protonmail.com>
+#                2021 Mateo Salta <mateo_salta@yahoo.com>
+#
+#  This program is free software; you can redistribute it and/or
+#  modify it under the terms of the GNU General Public License
+#  as published by the Free Software Foundation; either version 3
+#  of the License, or (at your option) any later version.
+#
+#  This program is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#  GNU General Public License for more details.
+#
+#  You should have received a copy of the GNU General Public License
+#  along with this program; if not, write to the Free Software
+#  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 name: Build
 
-# Controls when the action will run. 
 on:
-  # Triggers the workflow on push or pull request events but only for the master branch
   push:
     branches: [ master ]
   pull_request:
     branches: [ master ]
-
-  # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  ubports:
+  ubuntu-touch:
     strategy:
       fail-fast: false
       matrix:
+         build: [Release, Debug]
          arch: [all]
 
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
-        with:
-          # Fetch the whole tree so git describe works
-          fetch-depth: 0
-          submodules: true
       - name: Install clickable
         run: |
           # For whatever reason, I have to manually install runc before docker.io or containerd, else it fails because of broken dependency
@@ -41,8 +49,9 @@ jobs:
           sudo systemctl start docker.service
       - name: Build
         env:
+          BUILD_TYPE: ${{ (matrix.build == 'Debug') && '--debug' || '' }}
           ARCH: ${{ matrix.arch }}
-        run: clickable build --arch ${ARCH} --config clickable.json
+        run: ~/.local/bin/clickable build --verbose ${BUILD_TYPE} --arch ${ARCH} --config clickable.json
       - uses: actions/upload-artifact@v2
         with:
           name: "ubports-${{ matrix.arch }}--click"
