@@ -32,6 +32,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
+         version: ['refs/tags/5.0-youtube-dev']
          build: [Release, Debug]
          arch: [amd64, armhf, arm64]
 
@@ -61,7 +62,7 @@ jobs:
           path: build/all/app/*.click
           if-no-files-found: ignore
       - name: Publish to Open Store
-        if: ${{ github.ref == 'refs/tags/5.*-youtube-dev' && matrix.build == 'Release' }}
+        if: ${{ github.ref == matrix.version  && matrix.build == 'Release' }}
         env:
           ARCH: ${{ matrix.arch }}
           OPENSTORE_KEY: ${{ secrets.OPENSTORE_KEY }}
