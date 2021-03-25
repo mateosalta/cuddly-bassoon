@@ -61,7 +61,7 @@ jobs:
           path: build/all/app/*.click
           if-no-files-found: ignore
       - name: Publish to Open Store
-        if: ${{ github.ref == 'refs/heads/qgui' && matrix.build == 'Release' }}
+        if: ${{ github.ref == 'refs/tags/5.*-youtube-dev' && matrix.build == 'Release' }}
         env:
           ARCH: ${{ matrix.arch }}
           OPENSTORE_KEY: ${{ secrets.OPENSTORE_KEY }}
