@@ -2,5 +2,5 @@
   "clickable_minimum_required": "6.12.2",
   "builder": "cmake",
     "qt_version": "5.12",
-  "kill": "youtube-web"
+  "kill": "youtube-web-dev"
 }
