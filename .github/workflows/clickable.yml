@@ -32,9 +32,9 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-         version: ['refs/tags/5.0-youtube-dev']
          build: [Release, Debug]
          arch: [amd64, armhf, arm64]
+         version: ['refs/tags/5.0-youtube-dev']
 
     runs-on: ubuntu-20.04
     steps:
