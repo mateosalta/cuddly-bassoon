@@ -50,7 +50,12 @@ Item {
     WebEngineView {
 
         id: webview
-        anchors.fill: parent
+        anchors.top: parent.top
+        anchors.right: parent.right
+        anchors.left: parent.left
+        //scroll hack test
+    //height: units.gu(200)
+    anchors.bottom: parent.bottom
         
         
         ////////////////////////////////////////////
@@ -66,8 +71,6 @@ Item {
      //settings.showScrollBars: false
        settings.javascriptCanAccessClipboard: true
 
-         backgroundColor: theme.palette.normal.background
-         
        onFullScreenRequested: function(request) {
          nav.visible = !nav.visible
          if (request.toggleOn) {
@@ -83,11 +86,7 @@ Item {
 
         url: "https://m.youtube.com/"
 
-       onLoadingChanged: {
-            if (loadRequest.status === WebEngineLoadRequest.LoadSucceededStatus) {
-                window.loaded = true
-            }
-        }
+   
 
 
         //handle click on links
@@ -218,40 +217,17 @@ Item {
         ]
     }
     
-Rectangle {
-        id: splashScreen
-        color: "#111111"
-        anchors.fill: parent
 
-        ActivityIndicator{
-            id:loadingflg
-            anchors.centerIn: parent
-
-            running: splashScreen.visible
-        }
-
-        states: [
-            State { when: !window.loaded;
-                PropertyChanges { target: splashScreen; opacity: 1.0 }
-            },
-            State { when: window.loaded;
-                PropertyChanges { target: splashScreen; opacity: 0.0 }
-            }
-        ]
-
-        transitions: Transition {
-            NumberAnimation { property: "opacity"; duration: 400}
-        }
-
-    }
     Connections {
         target: webview
 
         onIsFullScreenChanged: {
+
             console.log('onIsFullScreenChanged:')
             window.setFullscreen(webview.isFullScreen)
             if (webview.isFullScreen) {
                 nav.state = "hidden"
+                          //  webview.height = units.gu(75)
             }
             else {
                 nav.state = "shown"
