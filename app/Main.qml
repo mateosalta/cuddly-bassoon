@@ -9,7 +9,7 @@ import QtSystemInfo 5.5
 
 Item {
 
-    id: window
+  //  id: window
     visible: true
 
 
@@ -24,12 +24,10 @@ Item {
 
 
     objectName: "mainView"
-    property bool loaded: false
     
 
-    
-        property QtObject defaultProfile: WebEngineProfile {
-        storageName: "YABProfile"
+    property QtObject defaultProfile: WebEngineProfile {
+        storageName: "myProfile"
         offTheRecord: false
         id: webContext
            persistentCookiesPolicy: WebEngineProfile.ForcePersistentCookies
@@ -37,9 +35,16 @@ Item {
 
             dataPath: dataLocation
 
-
+    userScripts: [
+           WebEngineScript {
+               id: cssinjection
+               injectionPoint: WebEngineScript.DocumentReady
+               sourceCode: "\n(function() {\nvar css = \"* {font-family: \\\"Ubuntu\\\" !important; font-size: 10pt !important;} ytm-pivot-bar-renderer {display: none !important;} .chip-bar{display: none !important;}\"\n\n;\n\n\nif (typeof GM_addStyle != \"undefined\") {\n\tGM_addStyle(css);\n} else if (typeof PRO_addStyle != \"undefined\") {\n\tPRO_addStyle(css);\n} else if (typeof addStyle != \"undefined\") {\n\taddStyle(css);\n} else {\n\tvar node = document.createElement(\"style\");\n\tnode.type = \"text/css\";\n\tnode.appendChild(document.createTextNode(css));\n\tvar heads = document.getElementsByTagName(\"head\");\n\tif (heads.length > 0) {\n\t\theads[0].appendChild(node); \n\t} else {\n\t\t// no head yet, stick it whereever\n\t\tdocument.documentElement.appendChild(node);\n\t}\n}\n\n})();"
+               worldId: WebEngineScript.UserWorld
+           }
+       ]
     
-        httpUserAgent: "Mozilla/5.0 (Linux; Android 8.0.0; Pixel Build/OPR3.170623.007) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.98 Mobile Safari/537.36"
+        httpUserAgent: "Mozilla/5.0 (Linux; Android 9.0; Pixel 4 XL) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.79 Mobile Safari/537.36"
     }
 
     WebEngineView {
@@ -70,21 +75,10 @@ Item {
          request.accept();
      }
 
-     userScripts: [
-           WebEngineScript {
-               id: cssinjection
-               injectionPoint: WebEngineScript.DocumentCreation
-               sourceUrl: Qt.resolvedUrl('ubuntutheme.js')
-               worldId: WebEngineScript.UserWorld
-           }
-       ]
-        url: "https://m.youtube.com"
 
-        onLoadingChanged: {
-            if (loadRequest.status === WebEngineLoadRequest.LoadSucceededStatus) {
-                window.loaded = true
-            }
-        }
+        url: "https://m.youtube.com/"
+
+   
 
 
         //handle click on links
@@ -215,32 +209,7 @@ Item {
         ]
     }
     
-        Rectangle {
-        id: splashScreen
-        color: "#111111"
-        anchors.fill: parent
 
-        ActivityIndicator{
-            id:loadingflg
-            anchors.centerIn: parent
-
-            running: splashScreen.visible
-        }
-
-        states: [
-            State { when: !window.loaded;
-                PropertyChanges { target: splashScreen; opacity: 1.0 }
-            },
-            State { when: window.loaded;
-                PropertyChanges { target: splashScreen; opacity: 0.0 }
-            }
-        ]
-
-        transitions: Transition {
-            NumberAnimation { property: "opacity"; duration: 400}
-        }
-
-    }
     Connections {
         target: webview
 
