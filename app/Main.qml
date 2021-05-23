@@ -44,18 +44,21 @@ Item {
            }
        ]
     
-        httpUserAgent: "Mozilla/5.0 (Linux; Android 9.0; Pixel 4 XL) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.79 Mobile Safari/537.36"
+        httpUserAgent: "Mozilla/2.0 (compatible; MSIE 3.02; Windows CE; 240x320)"
     }
 
     WebEngineView {
 
         id: webview
         anchors.fill: parent
+        
+        
+        ////////////////////////////////////////////
                 profile: defaultProfile
         settings.fullScreenSupportEnabled: true
         settings.dnsPrefetchEnabled: true
 
-        //enableSelectOverride: true
+       // enableSelectOverride: true
 
        property var currentWebview: webview
        property ContextMenuRequest contextMenuRequest: null
@@ -209,32 +212,6 @@ Item {
         ]
     }
     
-Rectangle {
-        id: splashScreen
-        color: "#111111"
-        anchors.fill: parent
-
-        ActivityIndicator{
-            id:loadingflg
-            anchors.centerIn: parent
-
-            running: splashScreen.visible
-        }
-
-        states: [
-            State { when: !window.loaded;
-                PropertyChanges { target: splashScreen; opacity: 1.0 }
-            },
-            State { when: window.loaded;
-                PropertyChanges { target: splashScreen; opacity: 0.0 }
-            }
-        ]
-
-        transitions: Transition {
-            NumberAnimation { property: "opacity"; duration: 400}
-        }
-
-    }
 
     Connections {
         target: webview
