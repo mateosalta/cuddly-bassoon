@@ -3,7 +3,7 @@ import QtQuick.Layouts 1.3
 import QtQuick.Controls 2.12
 import Ubuntu.Components 1.3
 import "UCSComponents"
-import Morph.Web 0.1
+//import Morph.Web 0.1
 import QtWebEngine 1.10
 import QtSystemInfo 5.5
 
