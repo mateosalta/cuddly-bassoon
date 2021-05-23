@@ -22,7 +22,7 @@ int main(int argc, char** argv) {
    // qputenv("QT_QPA_PLATFORM", "ubuntumirclient");
    //qputenv("QT_QPA_EGLFS_INTEGRATION", "eglfs_kms"
    // qputenv("QTWEBENGINE_CHROMIUM_FLAGS", "--override-hardware-secure-codecs-for-testing=vp8,vp9");
-    qputenv("QT_AUTO_SCREEN_SCALE_FACTOR", "true");
+   // qputenv("QT_AUTO_SCREEN_SCALE_FACTOR", "true");
     
     if (qgetenv("QT_QPA_PLATFORM") == "wayland") {
         qputenv("QT_WAYLAND_SHELL_INTEGRATION", "wl-shell");
