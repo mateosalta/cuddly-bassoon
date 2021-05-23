@@ -14,8 +14,8 @@
 
 
 int main(int argc, char** argv) {
-    QGuiApplication::setOrganizationName("youtube-web.mateo-salta");
-    QGuiApplication::setApplicationName("youtube-web.mateo-salta");
+    QGuiApplication::setOrganizationName("youtube-web-dev.mateo-salta");
+    QGuiApplication::setApplicationName("youtube-web-dev.mateo-salta");
     QGuiApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     //QCoreApplication::setAttribute(Qt::AA_ShareOpenGLContexts);
 
