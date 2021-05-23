@@ -65,7 +65,7 @@ jobs:
           path: "build/*/app/*.click"
           if-no-files-found: ignore
       - name: Publish to Open Store
-        if: startsWith( github.ref, 'refs/tags/releases/') 
+        if: startsWith( github.ref, 'refs/tags/') 
         env:
           ARCH: ${{ matrix.arch }}
           OPENSTORE_KEY: ${{ secrets.OPENSTORE_KEY }}
