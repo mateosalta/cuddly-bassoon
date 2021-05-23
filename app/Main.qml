@@ -55,7 +55,7 @@ Item {
         settings.fullScreenSupportEnabled: true
         settings.dnsPrefetchEnabled: true
 
-        enableSelectOverride: true
+        //enableSelectOverride: true
 
        property var currentWebview: webview
        property ContextMenuRequest contextMenuRequest: null
