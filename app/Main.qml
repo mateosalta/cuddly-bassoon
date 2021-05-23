@@ -209,6 +209,32 @@ Item {
         ]
     }
     
+Rectangle {
+        id: splashScreen
+        color: "#111111"
+        anchors.fill: parent
+
+        ActivityIndicator{
+            id:loadingflg
+            anchors.centerIn: parent
+
+            running: splashScreen.visible
+        }
+
+        states: [
+            State { when: !window.loaded;
+                PropertyChanges { target: splashScreen; opacity: 1.0 }
+            },
+            State { when: window.loaded;
+                PropertyChanges { target: splashScreen; opacity: 0.0 }
+            }
+        ]
+
+        transitions: Transition {
+            NumberAnimation { property: "opacity"; duration: 400}
+        }
+
+    }
 
     Connections {
         target: webview
