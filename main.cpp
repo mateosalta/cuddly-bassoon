@@ -17,12 +17,12 @@ int main(int argc, char** argv) {
     QGuiApplication::setOrganizationName("youtube-web.mateo-salta");
     QGuiApplication::setApplicationName("youtube-web.mateo-salta");
     QGuiApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
-             //   QCoreApplication::setAttribute(Qt::AA_ShareOpenGLContexts);
+    //QCoreApplication::setAttribute(Qt::AA_ShareOpenGLContexts);
 
    // qputenv("QT_QPA_PLATFORM", "ubuntumirclient");
    //qputenv("QT_QPA_EGLFS_INTEGRATION", "eglfs_kms"
-   // qputenv("QTWEBENGINE_CHROMIUM_FLAGS", "--override-hardware-secure-codecs-for-testing=vp8,vp9");
-   // qputenv("QT_AUTO_SCREEN_SCALE_FACTOR", "true");
+  // qputenv("QTWEBENGINE_CHROMIUM_FLAGS", "--disable-low-res-tiling --enable-native-gpu-memory-buffers --enable-zero-copy");
+  //  qputenv("QT_AUTO_SCREEN_SCALE_FACTOR", "true");
     
     if (qgetenv("QT_QPA_PLATFORM") == "wayland") {
         qputenv("QT_WAYLAND_SHELL_INTEGRATION", "wl-shell");
@@ -31,6 +31,7 @@ int main(int argc, char** argv) {
     }
     
     QGuiApplication app(argc, argv);
+    
 
     QQuickView view;
     view.setFlags(Qt::Window | Qt::WindowTitleHint);
