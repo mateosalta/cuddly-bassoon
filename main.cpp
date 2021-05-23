@@ -17,7 +17,7 @@ int main(int argc, char** argv) {
     QGuiApplication::setOrganizationName("youtube-web.mateo-salta");
     QGuiApplication::setApplicationName("youtube-web.mateo-salta");
     QGuiApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
-                QCoreApplication::setAttribute(Qt::AA_ShareOpenGLContexts);
+             //   QCoreApplication::setAttribute(Qt::AA_ShareOpenGLContexts);
 
    // qputenv("QT_QPA_PLATFORM", "ubuntumirclient");
    //qputenv("QT_QPA_EGLFS_INTEGRATION", "eglfs_kms"
