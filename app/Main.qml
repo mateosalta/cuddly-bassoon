@@ -66,6 +66,8 @@ Item {
      //settings.showScrollBars: false
        settings.javascriptCanAccessClipboard: true
 
+         backgroundColor: theme.palette.normal.background
+         
        onFullScreenRequested: function(request) {
          nav.visible = !nav.visible
          if (request.toggleOn) {
@@ -81,7 +83,11 @@ Item {
 
         url: "https://m.youtube.com/"
 
-   
+       onLoadingChanged: {
+            if (loadRequest.status === WebEngineLoadRequest.LoadSucceededStatus) {
+                window.loaded = true
+            }
+        }
 
 
         //handle click on links
