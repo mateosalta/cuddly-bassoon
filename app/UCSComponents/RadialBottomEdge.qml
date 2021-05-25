@@ -26,9 +26,9 @@ Item {
     HapticsEffect {
         id: clickEffect
         attackIntensity: 0.0
-        attackTime: 50
-        intensity: 1.0
-        duration: 10
+        attackTime: 100
+        intensity: 2.0
+        duration: 20
         fadeTime: 50
         fadeIntensity: 0.0
     }
