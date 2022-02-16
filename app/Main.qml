@@ -60,6 +60,7 @@ Rectangle {
         profile: defaultProfile
         settings.fullScreenSupportEnabled: true
         settings.dnsPrefetchEnabled: true
+        settings.showScrollBars: false
 
         enableSelectOverride: true
 
