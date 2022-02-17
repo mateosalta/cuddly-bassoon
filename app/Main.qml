@@ -60,13 +60,36 @@ Rectangle {
         profile: defaultProfile
         settings.fullScreenSupportEnabled: true
         settings.dnsPrefetchEnabled: true
+        settings.showScrollBars: false
 
         enableSelectOverride: true
 
         property var currentWebview: webview
         property ContextMenuRequest contextMenuRequest: null
+        property string seekBarOverlayScript: "
+            if (!document.getElementById('custom-seekbar')) {
+
+                var wrapper= document.createElement('div');
+                wrapper.innerHTML= '<div><div id=\"custom-seekbar\" class=\"cbox\" style=\"bottom: 0;left: 30px;right: 30px;width: auto;z-index: 3;position: absolute;height: 20px; overflow: hidden;margin-bottom: 10px;\"><span style=\" position: absolute; top: 0px; left: 0px; height: 10px; width: 0;\"></span></div></div>';
+
+                document.getElementById('player-container-id').appendChild(wrapper.firstChild);
+                var customseekbar = document.getElementById('custom-seekbar');
+
+                customseekbar.onclick = function(e) {
+                    var vid = document.querySelector('video');
+                    var offset = customseekbar.getBoundingClientRect();
+                    var left = (e.pageX - (offset.left + window.scrollX));
+                    var totalWidth = customseekbar.getBoundingClientRect().width;
+                    var percentage = ( left / totalWidth );
+                    var vidTime = vid.duration * percentage;
+                    vid.currentTime = parseFloat(vidTime);
+                };
+            }"
+
         settings.pluginsEnabled: true
         settings.javascriptCanAccessClipboard: true
+
+        onUrlChanged: {runJavaScript(seekBarOverlayScript); }
 
         onFullScreenRequested: function(request) {
             request.accept();

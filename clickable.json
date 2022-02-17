@@ -1,5 +1,6 @@
 {
+  "builder": "cmake",
   "clickable_minimum_required": "6.12.2",
-    "qt_version": "5.12",
+  "qt_version": "5.12",
   "kill": "youtube-web"
 }
