@@ -32,6 +32,7 @@ jobs:
       matrix:
          build: [Release, Debug]
          arch: [armhf, arm64, amd64]
+         version: ['refs/tags/5.2.0-youtube']
 
     runs-on: ubuntu-20.04
     steps:
@@ -63,3 +64,5 @@ jobs:
           ARCH: ${{ matrix.arch }}
           OPENSTORE_KEY: ${{ secrets.OPENSTORE_KEY }}
         run: ~/.local/bin/clickable publish "* $(git log -1 --pretty=%B | head -1)" --apikey ${OPENSTORE_KEY} --config clickable.json --arch ${ARCH}
+
+
