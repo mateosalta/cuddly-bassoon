@@ -34,6 +34,6 @@ int main(int argc, char** argv) {
     view.setResizeMode(QQuickView::SizeRootObjectToView);
     view.setColor(Qt::black);
     view.setSource(QUrl("qrc:///app/Main.qml"));
-    view.showFullScreen();
+    view.show();
     return app.exec();
 }
