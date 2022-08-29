@@ -69,10 +69,16 @@ Rectangle {
         property string seekBarOverlayScript: "
             if (!document.getElementById('custom-seekbar')) {
 
+                var styleSheet = document.createElement('style');
+                var styles = 'body[faux-fullscreen=true] #custom-seekbar { bottom:50px !important; } #custom-seekbar { bottom: 0; left: 30px;right: 30px; width: auto;z-index: 3;position: absolute;height: 20px; overflow: hidden;margin-bottom: 12px;}';
+                styleSheet.innerText = styles
+                document.body.appendChild(styleSheet)
+
                 var wrapper= document.createElement('div');
-                wrapper.innerHTML= '<div><div id=\"custom-seekbar\" class=\"cbox\" style=\"bottom: 0;left: 30px;right: 30px;width: auto;z-index: 3;position: absolute;height: 20px; overflow: hidden;margin-bottom: 10px;\"><span style=\" position: absolute; top: 0px; left: 0px; height: 10px; width: 0;\"></span></div></div>';
+                wrapper.innerHTML= '<div><div id=\"custom-seekbar\" class=\"cbox\"><span style=\" position: absolute; top: 0px; left: 0px; height: 12px; width: 0;\"></span></div></div>';
 
                 document.getElementById('player-container-id').appendChild(wrapper.firstChild);
+                //document.getElementsByClassName('ytm-progress-bar')[0].appendChild(wrapper.firstChild);
                 var customseekbar = document.getElementById('custom-seekbar');
 
                 customseekbar.onclick = function(e) {
