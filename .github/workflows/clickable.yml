@@ -42,7 +42,7 @@ jobs:
       - name: build package
         env:
           BUILD_TYPE: ${{ (matrix.build == 'Debug') && '--debug' || '' }}
-        uses: tuxecure/clickable@master
+        uses: tuxecure/clickable@v1
         with:
           image: clickable/ci-16.04-${{ matrix.arch }}
           run: clickable build --verbose ${BUILD_TYPE}
