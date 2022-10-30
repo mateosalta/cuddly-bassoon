@@ -40,11 +40,11 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: build package
+        env:
+          BUILD_TYPE: ${{ (matrix.build == 'Debug') && '--debug' || '' }}
+          ARCH: ${{ matrix.arch }}
         uses: tuxecure/clickable@v0.2
         with:
-          env:
-            BUILD_TYPE: ${{ (matrix.build == 'Debug') && '--debug' || '' }}
-            ARCH: ${{ matrix.arch }}
           image: clickable/ci-16.04-${{ matrix.arch }}
           run: |
                 cd /tmp/clickable_base; \
