@@ -46,9 +46,7 @@ jobs:
         uses: tuxecure/clickable@master
         with:
           image: clickable/ci-16.04-${{ matrix.arch }}
-          run: |
-                cd /tmp/clickable_base; \
-                clickable build --verbose ${BUILD_TYPE} --arch ${ARCH} --config clickable.json
+          run: clickable build --verbose ${BUILD_TYPE} --arch ${ARCH} --config clickable.json
       - name: Upload .click package for armhf
         uses: actions/upload-artifact@v3.1.1
         with:
