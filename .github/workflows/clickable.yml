@@ -42,11 +42,10 @@ jobs:
       - name: build package
         env:
           BUILD_TYPE: ${{ (matrix.build == 'Debug') && '--debug' || '' }}
-          ARCH: ${{ matrix.arch }}
         uses: tuxecure/clickable@master
         with:
           image: clickable/ci-16.04-${{ matrix.arch }}
-          run: clickable build --verbose ${BUILD_TYPE} --arch ${ARCH} --config clickable.json
+          run: clickable build --verbose ${BUILD_TYPE}
       - name: Upload .click package for armhf
         uses: actions/upload-artifact@v3.1.1
         with:
@@ -60,8 +59,7 @@ jobs:
       - name: Publish to Open Store
         if: startsWith( github.ref, 'refs/tags/') 
         env:
-          ARCH: ${{ matrix.arch }}
           OPENSTORE_KEY: ${{ secrets.OPENSTORE_KEY }}
-        run: clickable publish "* $(git log -1 --pretty=%B | head -1)" --apikey ${OPENSTORE_KEY} --config clickable.json --arch ${ARCH}
+        run: clickable publish "* $(git log -1 --pretty=%B | head -1)" --apikey ${OPENSTORE_KEY}
 
 
