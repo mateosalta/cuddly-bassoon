@@ -39,22 +39,21 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
-      - name: Install clickable
-        run: |
-          # For whatever reason, I have to manually install runc before docker.io or containerd, else it fails because of broken dependency
-          # Using apt-get because apt complains it shouldn't be used in scripts
-          sudo apt-get update
-          sudo apt-get install -y runc
-          sudo apt-get install -y docker.io adb git python3 python3-pip
-          pip3 install --user git+https://gitlab.com/clickable/clickable.git@debug
-          # Clickable requires a reboot/logout. This is a sneaky way to bypass that :^)
-          sudo systemctl unmask docker.service
-          sudo systemctl start docker.service
-      - name: Build
-        env:
-          BUILD_TYPE: ${{ (matrix.build == 'Debug') && '--debug' || '' }}
-          ARCH: ${{ matrix.arch }}
-        run: ~/.local/bin/clickable build --verbose ${BUILD_TYPE} --arch ${ARCH} --config clickable.json
+      - name: build package
+        uses: tuxecure/clickable@v0.2
+        with:
+          env:
+            BUILD_TYPE: ${{ (matrix.build == 'Debug') && '--debug' || '' }}
+            ARCH: ${{ matrix.arch }}
+          image: clickable/ci-16.04-${{ matrix.arch }}
+          run: |
+                cd /tmp/clickable_base; \
+                clickable build --verbose ${BUILD_TYPE} --arch ${ARCH} --config clickable.json
+      - name: Upload .click package for armhf
+        uses: actions/upload-artifact@v3.1.1
+        with:
+          path: |
+            build/*/app/*.click
       - uses: actions/upload-artifact@v2
         with:
           name: "ubports-${{ matrix.arch }}--click"
@@ -65,6 +64,6 @@ jobs:
         env:
           ARCH: ${{ matrix.arch }}
           OPENSTORE_KEY: ${{ secrets.OPENSTORE_KEY }}
-        run: ~/.local/bin/clickable publish "* $(git log -1 --pretty=%B | head -1)" --apikey ${OPENSTORE_KEY} --config clickable.json --arch ${ARCH}
+        run: clickable publish "* $(git log -1 --pretty=%B | head -1)" --apikey ${OPENSTORE_KEY} --config clickable.json --arch ${ARCH}
 
 
