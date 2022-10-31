@@ -34,7 +34,7 @@ jobs:
       matrix:
          build: [Release, Debug]
          arch: [armhf, arm64, amd64]
-         version: ['${{  github.ref_name }}-youtube']
+         version: ['refs/tags/5.2.3-youtube']
 
     runs-on: ubuntu-20.04
     steps:
