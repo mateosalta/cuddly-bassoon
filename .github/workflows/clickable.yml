@@ -48,7 +48,7 @@ jobs:
           run: clickable build --verbose ${BUILD_TYPE}
       - uses: actions/upload-artifact@v3
         with:
-          name: "ubports-${{ matrix.arch }}--click"
+          name: "ubports-${{ matrix.arch }}--${{ matrix.build }}--click"
           path: "build/*/app/*.click"
           if-no-files-found: ignore
       - name: Publish to Open Store
