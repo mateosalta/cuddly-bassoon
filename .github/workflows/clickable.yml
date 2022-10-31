@@ -46,11 +46,6 @@ jobs:
         with:
           image: clickable/ci-16.04-${{ matrix.arch }}
           run: clickable build --verbose ${BUILD_TYPE}
-      - name: Upload .click package for armhf
-        uses: actions/upload-artifact@v3.1.1
-        with:
-          path: |
-            build/*/app/*.click
       - uses: actions/upload-artifact@v3
         with:
           name: "ubports-${{ matrix.arch }}--click"
