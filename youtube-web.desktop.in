@@ -1,7 +1,7 @@
 [Desktop Entry]
 Name=YouTube
 Comment=Morph based alternate Youtube Webapp
-Exec=youtube-web --enable-embedded-switches %U
+Exec=youtube-web %U
 Terminal=false
 Type=Application
 Icon=assets/icon.png

@@ -11,17 +11,16 @@ Rectangle {
 
     id: rect
     visible: true
-    color: "#111111"
-
+    color: "transparent"
 
     ScreenSaver {
         id: screenSaver
         screenSaverEnabled: !Qt.application.active || !webview.recentlyAudible
     }
 
+
     width: units.gu(45)
     height: units.gu(75)
-
 
     objectName: "mainView"
     property bool loaded: false
@@ -35,8 +34,8 @@ Rectangle {
         property alias dataPath: webContext.persistentStoragePath
 
         dataPath: dataLocation
-
-        userScripts: [
+    
+            userScripts: [
            WebEngineScript {
                id: cssinjection
                injectionPoint: WebEngineScript.DocumentReady
@@ -44,23 +43,23 @@ Rectangle {
                sourceCode: "\n(function() {\nvar css = \"* {font-family: \\\"Ubuntu\\\" !important; font-size: 10pt !important;} ytm-pivot-bar-renderer {display: none !important;}\"\n\n;\n\n\nif (typeof GM_addStyle != \"undefined\") {\n\tGM_addStyle(css);\n} else if (typeof PRO_addStyle != \"undefined\") {\n\tPRO_addStyle(css);\n} else if (typeof addStyle != \"undefined\") {\n\taddStyle(css);\n} else {\n\tvar node = document.createElement(\"style\");\n\tnode.type = \"text/css\";\n\tnode.appendChild(document.createTextNode(css));\n\tvar heads = document.getElementsByTagName(\"head\");\n\tif (heads.length > 0) {\n\t\theads[0].appendChild(node); \n\t} else {\n\t\t// no head yet, stick it whereever\n\t\tdocument.documentElement.appendChild(node);\n\t}\n}\n\n})();"
            }
        ]
-    
-        httpUserAgent: "Mozilla/5.0 (Linux; Android 11; Ubuntu Touch) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.72 Mobile Safari/537.36"
+       
+        httpUserAgent: "Mozilla/5.0 (Linux; Android 12; Ubuntu Touch) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.72 Mobile Safari/537.36"
     }
 
     WebView {
 
         id: webview
-        
-        anchors.fill: parent
-        backgroundColor: "#111111"
+    anchors.fill: parent
+        backgroundColor: "transparent"
         url: "https://m.youtube.com/"
+
         
         
         profile: defaultProfile
         settings.fullScreenSupportEnabled: true
         settings.dnsPrefetchEnabled: true
-        settings.showScrollBars: false
+      //  settings.showScrollBars: false
 
         enableSelectOverride: true
 
@@ -164,7 +163,7 @@ Rectangle {
         }
     }
 
-    RadialBottomEdge {
+  RadialBottomEdge {
         id: nav
         visible: rect.loaded
         actions: [
@@ -233,8 +232,7 @@ Rectangle {
             }
         ]
     }
-    
-        
+
     Rectangle {
         id: splashScreen
         color: "#111111"
@@ -261,6 +259,8 @@ Rectangle {
         }
 
     }
+    
+
     
 
     Connections {

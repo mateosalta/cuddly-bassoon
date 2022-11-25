@@ -1,7 +1,6 @@
 <!DOCTYPE RCC><RCC version="1.0">
 <qresource prefix="/">
   <file>app/Main.qml</file>
-
   <file>app/UCSComponents/EmptyState.qml</file>
   <file>app/UCSComponents/RadialAction.qml</file>
   <file>app/UCSComponents/RadialBottomEdge.qml</file>
