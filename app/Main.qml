@@ -53,7 +53,7 @@ Rectangle {
         id: webview
     anchors.fill: parent
         backgroundColor: "transparent"
-        url: "chrome://gpu"
+        url: "http://m.youtube.com"
 
         
         
@@ -279,8 +279,6 @@ Rectangle {
                 nav.state = "shown"
             }
         }
-        
-        onMediaAccessPermissionRequested: request.allow()
     }
 
 
