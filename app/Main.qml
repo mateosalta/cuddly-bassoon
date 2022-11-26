@@ -7,6 +7,7 @@ import Morph.Web 0.1
 import QtWebEngine 1.10
 import QtSystemInfo 5.5
 
+
 Rectangle {
 
     id: rect
@@ -52,7 +53,7 @@ Rectangle {
         id: webview
     anchors.fill: parent
         backgroundColor: "transparent"
-        url: "https://m.youtube.com/"
+        url: "chrome://gpu"
 
         
         
@@ -89,7 +90,7 @@ Rectangle {
         settings.javascriptCanAccessClipboard: true
 
         onUrlChanged: {runJavaScript(seekBarOverlayScript); }
-
+        onFeaturePermissionRequested: grantFeaturePermission(url, WebEngineView.MediaAudioVideoCapture, true);
         onFullScreenRequested: function(request) {
             request.accept();
             nav.visible = !nav.visible
@@ -278,6 +279,8 @@ Rectangle {
                 nav.state = "shown"
             }
         }
+        
+        onMediaAccessPermissionRequested: request.allow()
     }
 
 
