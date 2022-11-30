@@ -4,7 +4,7 @@ import QtQuick.Controls 2.12
 import Ubuntu.Components 1.3
 import "UCSComponents"
 import Morph.Web 0.1
-import QtWebEngine 1.10
+import QtWebEngine 1.11
 import QtSystemInfo 5.5
 
 
@@ -41,7 +41,7 @@ Rectangle {
                id: cssinjection
                injectionPoint: WebEngineScript.DocumentReady
                worldId: WebEngineScript.UserWorld
-               sourceCode: "\n(function() {\nvar css = \"* {font-family: \\\"Ubuntu\\\" !important;} ytm-pivot-bar-renderer {display: none !important;} .related-chips-slot-wrapper.slot-open { margin-top: 45px !important;} \"\n\n;\n\n\nif (typeof GM_addStyle != \"undefined\") {\n\tGM_addStyle(css);\n} else if (typeof PRO_addStyle != \"undefined\") {\n\tPRO_addStyle(css);\n} else if (typeof addStyle != \"undefined\") {\n\taddStyle(css);\n} else {\n\tvar node = document.createElement(\"style\");\n\tnode.type = \"text/css\";\n\tnode.appendChild(document.createTextNode(css));\n\tvar heads = document.getElementsByTagName(\"head\");\n\tif (heads.length > 0) {\n\t\theads[0].appendChild(node); \n\t} else {\n\t\t// no head yet, stick it whereever\n\t\tdocument.documentElement.appendChild(node);\n\t}\n}\n\n})();"
+               sourceCode: "\n(function() {\nvar css = \"* {font-family: \\\"Ubuntu\\\" !important;} ytm-pivot-bar-renderer {display: none !important;} .related-chips-slot-wrapper { transform: none !important;} .related-chips-slot-wrapper.slot-open { transform: none !important; height: 295px !important;} \"\n\n;\n\n\nif (typeof GM_addStyle != \"undefined\") {\n\tGM_addStyle(css);\n} else if (typeof PRO_addStyle != \"undefined\") {\n\tPRO_addStyle(css);\n} else if (typeof addStyle != \"undefined\") {\n\taddStyle(css);\n} else {\n\tvar node = document.createElement(\"style\");\n\tnode.type = \"text/css\";\n\tnode.appendChild(document.createTextNode(css));\n\tvar heads = document.getElementsByTagName(\"head\");\n\tif (heads.length > 0) {\n\t\theads[0].appendChild(node); \n\t} else {\n\t\t// no head yet, stick it whereever\n\t\tdocument.documentElement.appendChild(node);\n\t}\n}\n\n})();"
            }
        ]
        
