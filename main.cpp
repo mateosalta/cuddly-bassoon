@@ -17,7 +17,7 @@ int main(int argc, char** argv) {
     QGuiApplication::setOrganizationName("youtube-web.mateo-salta");
     QGuiApplication::setApplicationName("youtube-web.mateo-salta");
     QGuiApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
-    //QCoreApplication::setAttribute(Qt::AA_ShareOpenGLContexts);
+    QGuiApplication::setAttribute(Qt::AA_ShareOpenGLContexts);
 
     //qputenv("QTWEBENGINE_CHROMIUM_FLAGS", "");
     
