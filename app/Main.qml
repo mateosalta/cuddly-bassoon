@@ -1,7 +1,7 @@
 import QtQuick 2.12
 import QtQuick.Layouts 1.3
 import QtQuick.Controls 2.12
-import Lomiri.Components 1.3
+import Ubuntu.Components 1.3
 import "UCSComponents"
 import Morph.Web 0.1
 import QtWebEngine 1.11

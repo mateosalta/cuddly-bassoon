@@ -6,8 +6,8 @@
          "video",
          "keep-display-on",
          "microphone"
-        
+
     ],
-    "policy_version": 20.04
+    "policy_version": 16.04
 }
 

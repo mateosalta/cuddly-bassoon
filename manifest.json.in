@@ -11,8 +11,8 @@
             "urls": "youtube-web.url-dispatcher"
         }
     },
-    "version": "6.3",
+    "version": "6.2.8",
     "maintainer": "Mateo Salta <mateo_salta@yahoo.com>",
-    "framework" : "ubuntu-sdk-20.04"
+    "framework" : "ubuntu-sdk-16.04.7"
 }
 
