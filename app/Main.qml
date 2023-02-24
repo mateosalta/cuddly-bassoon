@@ -1,7 +1,7 @@
 import QtQuick 2.12
 import QtQuick.Layouts 1.3
 import QtQuick.Controls 2.12
-import Ubuntu.Components 1.3
+import Lomiri.Components 1.3
 import "UCSComponents"
 import Morph.Web 0.1
 import QtWebEngine 1.11
@@ -53,7 +53,7 @@ Rectangle {
         id: webview
     anchors.fill: parent
         backgroundColor: "transparent"
-        url: "http://m.youtube.com"
+        url: "https://www.youtube.com"
 
         
         
@@ -66,33 +66,13 @@ Rectangle {
 
         property var currentWebview: webview
         property ContextMenuRequest contextMenuRequest: null
-        property string seekBarOverlayScript: "
-            if (!document.getElementById('custom-seekbar')) {
-                var styleSheet = document.createElement('style');
-                var styles = 'body[faux-fullscreen=true] #custom-seekbar { bottom:50px !important; } #custom-seekbar { bottom: 0; left: 30px;right: 30px; width: auto;z-index: 3;position: absolute;height: 20px; overflow: hidden;margin-bottom: 12px;}';
-                styleSheet.innerText = styles
-                document.body.appendChild(styleSheet)
-                var wrapper= document.createElement('div');
-                wrapper.innerHTML= '<div><div id=\"custom-seekbar\" class=\"cbox\"><span style=\" position: absolute; top: 0px; left: 0px; height: 12px; width: 0;\"></span></div></div>';
-                document.getElementById('player-container-id').appendChild(wrapper.firstChild);
-                //document.getElementsByClassName('ytm-progress-bar')[0].appendChild(wrapper.firstChild);
-                var customseekbar = document.getElementById('custom-seekbar');
-                customseekbar.onclick = function(e) {
-                    var vid = document.querySelector('video');
-                    var offset = customseekbar.getBoundingClientRect();
-                    var left = (e.pageX - (offset.left + window.scrollX));
-                    var totalWidth = customseekbar.getBoundingClientRect().width;
-                    var percentage = ( left / totalWidth );
-                    var vidTime = vid.duration * percentage;
-                    vid.currentTime = parseFloat(vidTime);
-                };
-            }"
+      
 
 
         settings.pluginsEnabled: true
         settings.javascriptCanAccessClipboard: true
 
-        onUrlChanged: {runJavaScript(seekBarOverlayScript); }
+        //onUrlChanged: {runJavaScript(seekBarOverlayScript); }
         
         onFeaturePermissionRequested: grantFeaturePermission(url, WebEngineView.MediaAudioVideoCapture, true);
         
