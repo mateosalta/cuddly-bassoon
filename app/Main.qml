@@ -8,9 +8,9 @@ import QtWebEngine 1.11
 import QtSystemInfo 5.5
 
 
-Rectangle {
+ApplicationWindow {
 
-    id: rect
+    id: window
     visible: true
     color: "transparent"
 
@@ -46,6 +46,7 @@ Rectangle {
        ]
        
         httpUserAgent: "Mozilla/5.0 (Linux; Android 12; Ubuntu Touch) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.72 Mobile Safari/537.36"
+
     }
 
     WebView {
@@ -53,7 +54,7 @@ Rectangle {
         id: webview
     anchors.fill: parent
         backgroundColor: "transparent"
-        url: "https://www.youtube.com"
+        url: "https://m.youtube.com"
 
         
         
@@ -62,7 +63,7 @@ Rectangle {
         settings.dnsPrefetchEnabled: true
       //  settings.showScrollBars: false
 
-        enableSelectOverride: true
+       enableSelectOverride: true
 
         property var currentWebview: webview
         property ContextMenuRequest contextMenuRequest: null
@@ -89,7 +90,7 @@ Rectangle {
 
          onLoadingChanged: {
              if (loadRequest.status === WebEngineLoadRequest.LoadSucceededStatus) {
-                 rect.loaded = true
+                 window.loaded = true
              }
          }
 
@@ -151,7 +152,7 @@ Rectangle {
 
   RadialBottomEdge {
         id: nav
-        visible: rect.loaded
+        visible: window.loaded
         actions: [
             RadialAction {
                 id: reload
@@ -219,32 +220,7 @@ Rectangle {
         ]
     }
 
-    Rectangle {
-        id: splashScreen
-        color: "#111111"
-        anchors.fill: parent
 
-        ActivityIndicator{
-            id:loadingflg
-            anchors.centerIn: parent
-
-            running: splashScreen.visible
-        }
-
-        states: [
-            State { when: !rect.loaded;
-                PropertyChanges { target: splashScreen; opacity: 1.0 }
-            },
-            State { when: rect.loaded;
-                PropertyChanges { target: splashScreen; opacity: 0.0 }
-            }
-        ]
-
-        transitions: Transition {
-            NumberAnimation { property: "opacity"; duration: 400}
-        }
-
-    }
     
 
     
