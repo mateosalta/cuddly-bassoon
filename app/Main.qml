@@ -161,7 +161,7 @@ ApplicationWindow {
                 onTriggered: {
                     webview.reload()
                 }
-                text: qsTr("Reload")
+                text: i18n.tr("Reload")
             },
 
             RadialAction {
@@ -171,7 +171,7 @@ ApplicationWindow {
                 onTriggered: {
                     webview.goForward()
                 }
-                text: qsTr("Forward")
+                text: i18n.tr("Forward")
             },
             RadialAction {
                 id: account
@@ -179,7 +179,7 @@ ApplicationWindow {
                 onTriggered: {
                     webview.url = 'https://m.youtube.com/feed/account'
                 }
-                text: qsTr("Account")
+                text: i18n.tr("Account")
 
             },
             RadialAction {
@@ -188,7 +188,7 @@ ApplicationWindow {
                 onTriggered: {
                     webview.url = 'https://m.youtube.com/feed/subscriptions'
                 }
-                text: qsTr("Subscriptions")
+                text: i18n.tr("Subscriptions")
 
             },
             RadialAction {
@@ -197,7 +197,7 @@ ApplicationWindow {
                 onTriggered: {
                     webview.url = 'https://m.youtube.com/feed/trending'
                 }
-                text: qsTr("Trending")
+                text: i18n.tr("Trending")
             },
 
             RadialAction {
@@ -206,7 +206,7 @@ ApplicationWindow {
                 onTriggered: {
                     webview.url = 'http://m.youtube.com'
                 }
-                text: qsTr("Home")
+                text: i18n.tr("Home")
             },
 
             RadialAction {
@@ -216,7 +216,7 @@ ApplicationWindow {
                 onTriggered: {
                     webview.goBack()
                 }
-                text: qsTr("Back")
+                text: i18n.tr("Back")
             }
         ]
     }
