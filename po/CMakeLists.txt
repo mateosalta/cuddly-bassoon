@@ -6,7 +6,7 @@ set(POT_FILE ${DOMAIN}.pot)
 file(GLOB PO_FILES *.po)
 
 # Creates the .pot file containing the translations template
-add_custom_target(${POT_FILE}
+add_custom_target(${POT_FILE} ALL
     COMMENT "Generating translation template"
     COMMAND ${INTLTOOL_EXTRACT} --update --type=gettext/ini
         --srcdir=${CMAKE_SOURCE_DIR} ${DESKTOP_FILE_NAME}.in
@@ -16,7 +16,8 @@ add_custom_target(${POT_FILE}
         -D ${CMAKE_CURRENT_BINARY_DIR}
         --from-code=UTF-8
         --c++ --qt --language=javascript --add-comments=TRANSLATORS
-        --keyword=tr --keyword=tr:1,2 --keyword=N_ --keyword=_
+        --keyword=tr --keyword=tr:1,2 --keyword=ctr:1c,2 --keyword=dctr:2c,3 --keyword=N_ --keyword=_
+        --keyword=dtr:2 --keyword=dtr:2,3 --keyword=tag --keyword=tag:1c,2
         --package-name='${DOMAIN}'
         --sort-by-file
         ${I18N_SRC_FILES}
