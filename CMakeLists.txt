@@ -55,7 +55,7 @@ install(DIRECTORY assets DESTINATION ${DATA_DIR})
 
 
 # Translations
-file(GLOB_RECURSE I18N_SRC_FILES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}/po  app/*.js)
+file(GLOB_RECURSE I18N_SRC_FILES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}/po  app/*.qml app/*.js)
 list(APPEND I18N_SRC_FILES ${DESKTOP_FILE_NAME}.in.h)
 
 find_program(INTLTOOL_MERGE intltool-merge)
@@ -82,6 +82,7 @@ file(GLOB_RECURSE PROJECT_SRC_FILES
     RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}
 
     app/*.js
+    app/*.qml
     src/*
     *.json
     *.json.in
