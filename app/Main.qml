@@ -1,15 +1,15 @@
 import QtQuick 2.12
 import QtQuick.Layouts 1.3
 import QtQuick.Controls 2.12
-import Ubuntu.Components 1.3
+import Lomiri.Components 1.3
 import "UCSComponents"
 import Morph.Web 0.1
-import QtWebEngine 1.10
+import QtWebEngine 1.11
 import QtSystemInfo 5.5
 
-Rectangle {
+ApplicationWindow {
 
-    id: rect
+    id: window
     visible: true
     color: "transparent"
 
@@ -18,13 +18,13 @@ Rectangle {
         screenSaverEnabled: !Qt.application.active || !webview.recentlyAudible
     }
 
-
     width: units.gu(45)
     height: units.gu(75)
 
     objectName: "mainView"
     property bool loaded: false
-    
+    property bool onError: false
+
 
     property QtObject defaultProfile: WebEngineProfile {
         id: webContext
@@ -34,61 +34,39 @@ Rectangle {
         property alias dataPath: webContext.persistentStoragePath
 
         dataPath: dataLocation
-    
-            userScripts: [
-           WebEngineScript {
-               id: cssinjection
-               injectionPoint: WebEngineScript.DocumentReady
-               worldId: WebEngineScript.UserWorld
-               sourceCode: "\n(function() {\nvar css = \"* {font-family: \\\"Ubuntu\\\" !important; font-size: 10pt !important;} ytm-pivot-bar-renderer {display: none !important;}\"\n\n;\n\n\nif (typeof GM_addStyle != \"undefined\") {\n\tGM_addStyle(css);\n} else if (typeof PRO_addStyle != \"undefined\") {\n\tPRO_addStyle(css);\n} else if (typeof addStyle != \"undefined\") {\n\taddStyle(css);\n} else {\n\tvar node = document.createElement(\"style\");\n\tnode.type = \"text/css\";\n\tnode.appendChild(document.createTextNode(css));\n\tvar heads = document.getElementsByTagName(\"head\");\n\tif (heads.length > 0) {\n\t\theads[0].appendChild(node); \n\t} else {\n\t\t// no head yet, stick it whereever\n\t\tdocument.documentElement.appendChild(node);\n\t}\n}\n\n})();"
-           }
-       ]
-       
+
+        userScripts: [
+            WebEngineScript {
+                id: cssinjection
+                injectionPoint: WebEngineScript.DocumentReady
+                worldId: WebEngineScript.UserWorld
+                sourceCode: "\n(function() {\nvar css = \"* {font-family: \\\"Ubuntu\\\" !important;} ytm-pivot-bar-renderer {display: none !important;} .related-chips-slot-wrapper { transform: none !important;} .related-chips-slot-wrapper.slot-open { transform: none !important; height: 295px !important;} \"\n\n;\n\n\nif (typeof GM_addStyle != \"undefined\") {\n\tGM_addStyle(css);\n} else if (typeof PRO_addStyle != \"undefined\") {\n\tPRO_addStyle(css);\n} else if (typeof addStyle != \"undefined\") {\n\taddStyle(css);\n} else {\n\tvar node = document.createElement(\"style\");\n\tnode.type = \"text/css\";\n\tnode.appendChild(document.createTextNode(css));\n\tvar heads = document.getElementsByTagName(\"head\");\n\tif (heads.length > 0) {\n\t\theads[0].appendChild(node); \n\t} else {\n\t\t// no head yet, stick it whereever\n\t\tdocument.documentElement.appendChild(node);\n\t}\n}\n\n})();"
+            }
+        ]
+
         httpUserAgent: "Mozilla/5.0 (Linux; Android 12; Ubuntu Touch) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.72 Mobile Safari/537.36"
+
     }
 
     WebView {
 
         id: webview
-    anchors.fill: parent
-        backgroundColor: "transparent"
+        anchors.fill: parent
         url: "https://m.youtube.com/"
 
-        
-        
         profile: defaultProfile
         settings.fullScreenSupportEnabled: true
         settings.dnsPrefetchEnabled: true
-      //  settings.showScrollBars: false
 
         enableSelectOverride: true
 
         property var currentWebview: webview
         property ContextMenuRequest contextMenuRequest: null
-        property string seekBarOverlayScript: "
-            if (!document.getElementById('custom-seekbar')) {
-
-                var wrapper= document.createElement('div');
-                wrapper.innerHTML= '<div><div id=\"custom-seekbar\" class=\"cbox\" style=\"bottom: 0;left: 30px;right: 30px;width: auto;z-index: 3;position: absolute;height: 20px; overflow: hidden;margin-bottom: 10px;\"><span style=\" position: absolute; top: 0px; left: 0px; height: 10px; width: 0;\"></span></div></div>';
-
-                document.getElementById('player-container-id').appendChild(wrapper.firstChild);
-                var customseekbar = document.getElementById('custom-seekbar');
-
-                customseekbar.onclick = function(e) {
-                    var vid = document.querySelector('video');
-                    var offset = customseekbar.getBoundingClientRect();
-                    var left = (e.pageX - (offset.left + window.scrollX));
-                    var totalWidth = customseekbar.getBoundingClientRect().width;
-                    var percentage = ( left / totalWidth );
-                    var vidTime = vid.duration * percentage;
-                    vid.currentTime = parseFloat(vidTime);
-                };
-            }"
 
         settings.pluginsEnabled: true
         settings.javascriptCanAccessClipboard: true
 
-        onUrlChanged: {runJavaScript(seekBarOverlayScript); }
+        onFeaturePermissionRequested: grantFeaturePermission(url, WebEngineView.MediaAudioVideoCapture, true);
 
         onFullScreenRequested: function(request) {
             request.accept();
@@ -98,14 +76,17 @@ Rectangle {
             }
             else {
                 window.showNormal();
-            }   
-         }
+            }
+        }
 
-         onLoadingChanged: {
-             if (loadRequest.status === WebEngineLoadRequest.LoadSucceededStatus) {
-                 rect.loaded = true
-             }
-         }
+
+        onLoadingChanged: {
+            if (loadRequest.status === WebEngineLoadRequest.LoadStartedStatus) {
+                window.loaded = true
+            } else if (loadRequest.status === WebEngineLoadRequest.LoadFailedStatus) {
+                window.onError = true
+            }
+        }
 
         //handle click on links
         onNewViewRequested: function(request) {
@@ -122,7 +103,7 @@ Rectangle {
                     Qt.openUrlExternally(decodeURIComponent(param[1]))
                 } else {
                     Qt.openUrlExternally(url)
-                                    request.action = WebEngineNavigationRequest.IgnoreRequest;
+                    request.action = WebEngineNavigationRequest.IgnoreRequest;
                 }
             } else {
                 Qt.openUrlExternally(url)
@@ -148,14 +129,15 @@ Rectangle {
             text: i18n.tr("Copy link")
             enabled: webview.contextMenuRequest
             onTriggered: {
-                console.log(webview.contextMenuRequest.linkUrl.toString())
+
                 var url = ''
                 if (webview.contextMenuRequest.linkUrl.toString().length > 0) {
                     url = webview.contextMenuRequest.linkUrl.toString()
                 } else {
                     //when clicking on the video
-                    url = webview.url
+                    url = webview.url.toString()
                 }
+                console.log("push to clipboard:", url)
 
                 Clipboard.push(url)
                 webview.contextMenuRequest = null;
@@ -163,17 +145,18 @@ Rectangle {
         }
     }
 
-  RadialBottomEdge {
+    RadialBottomEdge {
         id: nav
-        visible: rect.loaded
+        visible: window.loaded || window.onError
         actions: [
             RadialAction {
                 id: reload
                 iconName: "reload"
                 onTriggered: {
+                    window.onError = false
                     webview.reload()
                 }
-                text: qsTr("Reload")
+                text: i18n.tr("Reload")
             },
 
             RadialAction {
@@ -183,7 +166,7 @@ Rectangle {
                 onTriggered: {
                     webview.goForward()
                 }
-                text: qsTr("Forward")
+                text: i18n.tr("Forward")
             },
             RadialAction {
                 id: account
@@ -191,7 +174,7 @@ Rectangle {
                 onTriggered: {
                     webview.url = 'https://m.youtube.com/feed/account'
                 }
-                text: qsTr("Account")
+                text: i18n.tr("Account")
 
             },
             RadialAction {
@@ -200,7 +183,7 @@ Rectangle {
                 onTriggered: {
                     webview.url = 'https://m.youtube.com/feed/subscriptions'
                 }
-                text: qsTr("Subscriptions")
+                text: i18n.tr("Subscriptions")
 
             },
             RadialAction {
@@ -209,7 +192,7 @@ Rectangle {
                 onTriggered: {
                     webview.url = 'https://m.youtube.com/feed/trending'
                 }
-                text: qsTr("Trending")
+                text: i18n.tr("Trending")
             },
 
             RadialAction {
@@ -218,7 +201,7 @@ Rectangle {
                 onTriggered: {
                     webview.url = 'http://m.youtube.com'
                 }
-                text: qsTr("Home")
+                text: i18n.tr("Home")
             },
 
             RadialAction {
@@ -228,40 +211,30 @@ Rectangle {
                 onTriggered: {
                     webview.goBack()
                 }
-                text: qsTr("Back")
+                text: i18n.tr("Back")
             }
         ]
     }
 
     Rectangle {
         id: splashScreen
-        color: "#111111"
         anchors.fill: parent
-
-        ActivityIndicator{
-            id:loadingflg
-            anchors.centerIn: parent
-
-            running: splashScreen.visible
-        }
+        color: "#111111"
 
         states: [
-            State { when: !rect.loaded;
+            State { when: !window.loaded && !window.onError;
                 PropertyChanges { target: splashScreen; opacity: 1.0 }
             },
-            State { when: rect.loaded;
+            State { when: window.loaded || window.onError;
                 PropertyChanges { target: splashScreen; opacity: 0.0 }
             }
         ]
 
         transitions: Transition {
-            NumberAnimation { property: "opacity"; duration: 400}
+            NumberAnimation { property: "opacity"; duration: 600}
         }
-
     }
-    
 
-    
 
     Connections {
         target: webview
@@ -272,7 +245,7 @@ Rectangle {
             window.setFullscreen(webview.isFullScreen)
             if (webview.isFullScreen) {
                 nav.state = "hidden"
-                          //  webview.height = units.gu(75)
+                //  webview.height = units.gu(75)
             }
             else {
                 nav.state = "shown"
@@ -280,56 +253,59 @@ Rectangle {
         }
     }
 
+    Connections {
+        target: UriHandler
 
-        Connections {
-            target: UriHandler
+        onOpened: {
 
-            onOpened: {
+            if (uris.length > 0) {
+                console.log('Incoming call from UriHandler ' + uris[0]);
+                webview.url = uris[0];
+            }
+        }
+    }
 
-                if (uris.length > 0) {
-                    console.log('Incoming call from UriHandler ' + uris[0]);
-                    webview.url = uris[0];
+    Component.onCompleted: {
+        //Check if opened the app because we have an incoming call
+        if (Qt.application.arguments && Qt.application.arguments.length > 0) {
+            for (var i = 0; i < Qt.application.arguments.length; i++) {
+                if (Qt.application.arguments[i].match(/^http/)) {
+                    console.log(' open video to:', Qt.application.arguments[i])
+                    webview.url = Qt.application.arguments[i];
                 }
             }
         }
-
-        Component.onCompleted: {
-            //Check if opened the app because we have an incoming call
-            if (Qt.application.arguments && Qt.application.arguments.length > 0) {
-                for (var i = 0; i < Qt.application.arguments.length; i++) {
-                    if (Qt.application.arguments[i].match(/^http/)) {
-                        console.log(' open video to:', Qt.application.arguments[i])
-                        webview.url = Qt.application.arguments[i];
-                    }
-                }
-            }
-            else {
+        else {
             webview.url = myurl;
-            }
         }
+    }
 
-        function setFullscreen(fullscreen) {
-            if (fullscreen) {
-                if (window.visibility != ApplicationWindow.FullScreen) {
-                    window.visibility = ApplicationWindow.FullScreen
-                }
-            } else {
-                window.visibility = ApplicationWindow.Windowed
+    function setFullscreen(fullscreen) {
+        if (fullscreen) {
+            if (window.visibility != ApplicationWindow.FullScreen) {
+                window.visibility = ApplicationWindow.FullScreen
             }
+        } else {
+            window.visibility = ApplicationWindow.Windowed
         }
-        
-        
+    }
+
+
             function toggleApplicationLevelFullscreen() {
                 setFullscreen(visibility !== ApplicationWindow.FullScreen)
             }
 
-            Shortcut {
-                sequence: StandardKey.FullScreen
-                onActivated: window.toggleApplicationLevelFullscreen()
-            }
+    function toggleApplicationLevelFullscreen() {
+        setFullscreen(visibility !== ApplicationWindow.FullScreen)
+    }
 
-            Shortcut {
-                sequence: "F11"
-                onActivated: window.toggleApplicationLevelFullscreen()
-            }
+    Shortcut {
+        sequence: StandardKey.FullScreen
+        onActivated: window.toggleApplicationLevelFullscreen()
+    }
+
+    Shortcut {
+        sequence: "F11"
+        onActivated: window.toggleApplicationLevelFullscreen()
+    }
 }

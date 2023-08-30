@@ -4,9 +4,10 @@
          "networking",
          "audio",
          "video",
-         "keep-display-on"
+         "keep-display-on",
+         "microphone"
         
     ],
-    "policy_version": 16.04
+    "policy_version": 20.04
 }
 
