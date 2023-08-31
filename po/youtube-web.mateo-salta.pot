@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: youtube-web.mateo-salta\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-06-23 09:21+0000\n"
+"POT-Creation-Date: 2023-08-31 07:13+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,34 +17,34 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ../app/Main.qml:135
+#: ../app/Main.qml:129
 msgid "Copy link"
 msgstr ""
 
-#: ../app/Main.qml:164
+#: ../app/Main.qml:159
 msgid "Reload"
 msgstr ""
 
-#: ../app/Main.qml:174
+#: ../app/Main.qml:169
 msgid "Forward"
 msgstr ""
 
-#: ../app/Main.qml:182
+#: ../app/Main.qml:177
 msgid "Account"
 msgstr ""
 
-#: ../app/Main.qml:191
+#: ../app/Main.qml:186
 msgid "Subscriptions"
 msgstr ""
 
-#: ../app/Main.qml:200
+#: ../app/Main.qml:195
 msgid "Trending"
 msgstr ""
 
-#: ../app/Main.qml:209
+#: ../app/Main.qml:204
 msgid "Home"
 msgstr ""
 
-#: ../app/Main.qml:219
+#: ../app/Main.qml:214
 msgid "Back"
 msgstr ""
