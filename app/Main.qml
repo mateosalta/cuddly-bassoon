@@ -52,6 +52,7 @@ ApplicationWindow {
 
         id: webview
         anchors.fill: parent
+        backgroundColor: Theme.palette.normal.background
         url: "https://m.youtube.com/"
 
         profile: defaultProfile
@@ -219,7 +220,7 @@ ApplicationWindow {
     Rectangle {
         id: splashScreen
         anchors.fill: parent
-        color: "#111111"
+        color: Theme.palette.normal.background
 
         states: [
             State { when: !window.loaded && !window.onError;
