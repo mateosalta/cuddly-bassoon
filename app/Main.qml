@@ -290,11 +290,6 @@ ApplicationWindow {
         }
     }
 
-
-            function toggleApplicationLevelFullscreen() {
-                setFullscreen(visibility !== ApplicationWindow.FullScreen)
-            }
-
     function toggleApplicationLevelFullscreen() {
         setFullscreen(visibility !== ApplicationWindow.FullScreen)
     }
