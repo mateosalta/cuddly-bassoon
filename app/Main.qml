@@ -25,6 +25,7 @@ ApplicationWindow {
     property bool loaded: false
     property bool onError: false
 
+
     property QtObject defaultProfile: WebEngineProfile {
         id: webContext
         storageName: "myProfile"
@@ -78,6 +79,7 @@ ApplicationWindow {
             }
         }
 
+
         onLoadingChanged: {
             if (loadRequest.status === WebEngineLoadRequest.LoadStartedStatus) {
                 window.loaded = true
@@ -127,14 +129,15 @@ ApplicationWindow {
             text: i18n.tr("Copy link")
             enabled: webview.contextMenuRequest
             onTriggered: {
-                console.log(webview.contextMenuRequest.linkUrl.toString())
+
                 var url = ''
                 if (webview.contextMenuRequest.linkUrl.toString().length > 0) {
                     url = webview.contextMenuRequest.linkUrl.toString()
                 } else {
                     //when clicking on the video
-                    url = webview.url
+                    url = webview.url.toString()
                 }
+                console.log("push to clipboard:", url)
 
                 Clipboard.push(url)
                 webview.contextMenuRequest = null;
@@ -153,7 +156,7 @@ ApplicationWindow {
                     window.onError = false
                     webview.reload()
                 }
-                text: qsTr("Reload")
+                text: i18n.tr("Reload")
             },
 
             RadialAction {
@@ -163,7 +166,7 @@ ApplicationWindow {
                 onTriggered: {
                     webview.goForward()
                 }
-                text: qsTr("Forward")
+                text: i18n.tr("Forward")
             },
             RadialAction {
                 id: account
@@ -171,7 +174,7 @@ ApplicationWindow {
                 onTriggered: {
                     webview.url = 'https://m.youtube.com/feed/account'
                 }
-                text: qsTr("Account")
+                text: i18n.tr("Account")
 
             },
             RadialAction {
@@ -180,7 +183,7 @@ ApplicationWindow {
                 onTriggered: {
                     webview.url = 'https://m.youtube.com/feed/subscriptions'
                 }
-                text: qsTr("Subscriptions")
+                text: i18n.tr("Subscriptions")
 
             },
             RadialAction {
@@ -189,7 +192,7 @@ ApplicationWindow {
                 onTriggered: {
                     webview.url = 'https://m.youtube.com/feed/trending'
                 }
-                text: qsTr("Trending")
+                text: i18n.tr("Trending")
             },
 
             RadialAction {
@@ -198,7 +201,7 @@ ApplicationWindow {
                 onTriggered: {
                     webview.url = 'http://m.youtube.com'
                 }
-                text: qsTr("Home")
+                text: i18n.tr("Home")
             },
 
             RadialAction {
@@ -208,7 +211,7 @@ ApplicationWindow {
                 onTriggered: {
                     webview.goBack()
                 }
-                text: qsTr("Back")
+                text: i18n.tr("Back")
             }
         ]
     }
@@ -231,6 +234,7 @@ ApplicationWindow {
             NumberAnimation { property: "opacity"; duration: 600}
         }
     }
+
 
     Connections {
         target: webview
@@ -285,6 +289,11 @@ ApplicationWindow {
             window.visibility = ApplicationWindow.Windowed
         }
     }
+
+
+            function toggleApplicationLevelFullscreen() {
+                setFullscreen(visibility !== ApplicationWindow.FullScreen)
+            }
 
     function toggleApplicationLevelFullscreen() {
         setFullscreen(visibility !== ApplicationWindow.FullScreen)
