@@ -13,6 +13,6 @@
     },
     "version": "6.3",
     "maintainer": "Mateo Salta <mateo_salta@yahoo.com>",
-    "framework" : "ubuntu-sdk-20.04"
+    "framework" : "@CLICKABLE_FRAMEWORK@"
 }
 

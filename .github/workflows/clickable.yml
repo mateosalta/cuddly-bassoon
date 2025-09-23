@@ -20,11 +20,11 @@ name: Build
 
 on:
   push:
-    branches: [ master ]
+    branches: [ main ]
   create: 
     tags: releases/[1-9]+.[0-9]+.[0-9]+
   pull_request:
-    branches: [ master ]
+    branches: [ main ]
   workflow_dispatch:
 
 jobs:
@@ -33,38 +33,30 @@ jobs:
       fail-fast: false
       matrix:
          build: [Release, Debug]
-         arch: [armhf, arm64, amd64]
-         version: ['refs/tags/5.2.1-youtube']
+         arch: [arm64, amd64]
+         ut_version: ['20.04', 'ut24.04-1.x']
+         version: ['refs/tags/5.2.3-youtube']
 
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v2
-      - name: Install clickable
-        run: |
-          # For whatever reason, I have to manually install runc before docker.io or containerd, else it fails because of broken dependency
-          # Using apt-get because apt complains it shouldn't be used in scripts
-          sudo apt-get update
-          sudo apt-get install -y runc
-          sudo apt-get install -y docker.io adb git python3 python3-pip
-          pip3 install --user git+https://gitlab.com/clickable/clickable.git@debug
-          # Clickable requires a reboot/logout. This is a sneaky way to bypass that :^)
-          sudo systemctl unmask docker.service
-          sudo systemctl start docker.service
-      - name: Build
+      - uses: actions/checkout@v4
+      - name: build package
         env:
           BUILD_TYPE: ${{ (matrix.build == 'Debug') && '--debug' || '' }}
-          ARCH: ${{ matrix.arch }}
-        run: ~/.local/bin/clickable build --verbose ${BUILD_TYPE} --arch ${ARCH} --config clickable.json
-      - uses: actions/upload-artifact@v2
+          CLICKABLE_FRAMEWORK: ${{ (matrix.ut_version == '20.04') && 'ubuntu-sdk-20.04' || 'ubuntu-touch-24.04-1.x' }}
+        uses: tuxecure/clickable@v1
         with:
-          name: "ubports-${{ matrix.arch }}--click"
+          image: clickable/ci-${{ matrix.ut_version }}-${{ matrix.arch }}
+          run: clickable build --verbose ${BUILD_TYPE}
+      - uses: actions/upload-artifact@v4
+        with:
+          name: "ubports-${{ matrix.arch }}--${{ matrix.build }}--${{ matrix.ut_version }}"
           path: "build/*/app/*.click"
           if-no-files-found: ignore
       - name: Publish to Open Store
-        if: startsWith( github.ref, 'refs/tags/') 
+        if: ${{ startsWith( github.ref, 'refs/tags/') && (matrix.build == 'Release') }}
         env:
-          ARCH: ${{ matrix.arch }}
           OPENSTORE_KEY: ${{ secrets.OPENSTORE_KEY }}
-        run: ~/.local/bin/clickable publish "* $(git log -1 --pretty=%B | head -1)" --apikey ${OPENSTORE_KEY} --config clickable.json --arch ${ARCH}
+        run: clickable publish "* $(git log -1 --pretty=%B | head -1)" --apikey ${OPENSTORE_KEY}
 
 

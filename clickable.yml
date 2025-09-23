@@ -1,0 +1,4 @@
+builder: "cmake"
+clickable_minimum_required: "8.4.0"
+qt_version: "5.12"
+kill: "youtube-web"
